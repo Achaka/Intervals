@@ -6,8 +6,8 @@ import androidx.room.Relation
 data class TrainingWithIntervals (
     @Embedded val training: Training,
             @Relation(
-                parentColumn = "trainingId",
-                entityColumn = "intervalId"
+                parentColumn = "training_id",
+                entityColumn = "interval_id"
             )
             val intervals: List<Interval>
         )

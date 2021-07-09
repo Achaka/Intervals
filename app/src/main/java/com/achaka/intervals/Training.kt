@@ -7,6 +7,6 @@ import androidx.room.Relation
 
 @Entity(tableName = "trainings")
 data class Training (
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "trainingId") val id: Long,
-
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "training_id") val id: Long,
+    @ColumnInfo(name = "training_name") val trainingName: String
     )
