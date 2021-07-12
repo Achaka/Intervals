@@ -21,13 +21,11 @@ class IntervalsAdapter : ListAdapter<Interval, IntervalsAdapter.IntervalViewHold
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IntervalViewHolder {
-        val viewHolder = IntervalViewHolder(
+        return IntervalViewHolder(
             IntervalItemBinding.inflate(
                 LayoutInflater.from(parent.context),
-
             )
         )
-
     }
 
     override fun onBindViewHolder(holder: IntervalViewHolder, position: Int) {
