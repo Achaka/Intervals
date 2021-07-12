@@ -16,6 +16,7 @@ import androidx.room.PrimaryKey
 data class Interval (
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "interval_id") val id: Long,
     @ColumnInfo(name = "number") val number: Int,
+    @ColumnInfo(name = "description") val description: String,
     @ColumnInfo(name = "seconds") val seconds: Int,
     @ColumnInfo(name = "is_completed") val isCompleted: Boolean,
     @ColumnInfo(name = "training_id") val trainingId: Long,

@@ -11,7 +11,7 @@ interface IntervalDao {
 //    suspend fun getIntervals(trainingName: String): List<Interval>
 
     @Query("SELECT * FROM intervals WHERE training_id = :trainingId ORDER BY number ASC")
-    suspend fun getIntervals(trainingId: Long)
+    suspend fun getIntervals(trainingId: Long): MutableList<Interval>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertInterval(interval: Interval)
@@ -19,7 +19,7 @@ interface IntervalDao {
     @Query("DELETE FROM intervals WHERE training_id = :trainingId")
     suspend fun deleteIntervalsFromTraining(trainingId: Long)
 
-    @Query("DELETE FROM intervals")
-    suspend fun deleteInterval(intervalNumber: Int)
+    @Query("DELETE FROM intervals WHERE interval_id = :intervalId")
+    suspend fun deleteInterval(intervalId: Int)
 
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/trainingsFragment">
+
+    <fragment
+        android:id="@+id/trainingsFragment"
+        android:name="com.achaka.intervals.TrainingsFragment"
+        android:label="fragment_trainings"
+        tools:layout="@layout/fragment_trainings" >
+        <action
+            android:id="@+id/action_trainingsFragment_to_intervalsFragment"
+            app:destination="@id/intervalsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/intervalsFragment"
+        android:name="com.achaka.intervals.IntervalsFragment"
+        android:label="fragment_intervals"
+        tools:layout="@layout/fragment_intervals" />
+</navigation>

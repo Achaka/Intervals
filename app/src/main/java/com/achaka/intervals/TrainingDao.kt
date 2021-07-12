@@ -10,5 +10,6 @@ interface TrainingDao {
     @Query ("SELECT * FROM trainings")
     fun getTrainingWithIntervals(): List<TrainingWithIntervals>
 
-    suspend fun getTraining(): Training
+    @Query("SELECT * FROM trainings WHERE training_id = :trainingId")
+    suspend fun getTraining(trainingId: Long): Training
 }
