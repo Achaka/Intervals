@@ -12,10 +12,12 @@
         tools:layout="@layout/fragment_trainings" >
         <action
             android:id="@+id/action_trainingsFragment_to_intervalsFragment"
-            app:destination="@id/intervalsFragment" />
-        <argument
-            android:name="trainingId"
-            app:argType="long" />
+            app:destination="@id/intervalsFragment">
+            <argument
+                android:name="trainingId"
+                app:argType="long" />
+        </action>
+
     </fragment>
     <fragment
         android:id="@+id/intervalsFragment"

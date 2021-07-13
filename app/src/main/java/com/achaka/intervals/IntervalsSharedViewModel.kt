@@ -1,6 +1,7 @@
 package com.achaka.intervals
 
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.Flow
 
 class IntervalsSharedViewModel(private val intervalDao: IntervalDao,
                                private val trainingDao: TrainingDao): ViewModel() {
@@ -16,5 +17,13 @@ class IntervalsSharedViewModel(private val intervalDao: IntervalDao,
         trainings.add(Training(0L, "firstT"))
         trainings.add(Training(1L, "secondT"))
         return trainings
+    }
+
+    fun getTrainings(): Flow<List<Training>> {
+        return trainingDao.getTrainings()
+    }
+
+    suspend fun insertTrainings(training: Training) {
+        trainingDao.insertTraining(training)
     }
 }
