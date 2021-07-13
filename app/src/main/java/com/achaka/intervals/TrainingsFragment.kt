@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.achaka.intervals.databinding.FragmentTrainingsBinding
 import com.achaka.intervals.databinding.TrainingItemBinding
@@ -29,7 +30,9 @@ class TrainingsFragment : Fragment() {
         val recyclerView = binding.trainingsRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        val adapter = TrainingsAdapter {}
+        val adapter = TrainingsAdapter {
+            view?.findNavController()?.navigate(R.id.action_trainingsFragment_to_intervalsFragment)
+        }
         recyclerView.adapter = adapter
         adapter.submitList(viewModel.getTestTrainings())
 
