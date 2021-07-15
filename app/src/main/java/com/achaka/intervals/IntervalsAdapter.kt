@@ -10,9 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.achaka.intervals.databinding.IntervalItemBinding
 
 class IntervalsAdapter(
-    private val onPlusClickedListener: (Interval) -> Unit,
-//                       private val onMinusClicked: AdapterView.OnItemClickListener
-                       )
+    private val onPlusClicked: (Interval) -> Unit,
+    private val onMinusClicked: (Interval) -> Unit,
+    private val onLongPress: (Interval) -> Unit
+    )
     : ListAdapter<Interval, IntervalsAdapter.IntervalViewHolder>(DiffCallback) {
 
     private val intervals: List<Interval> = mutableListOf()
@@ -31,6 +32,9 @@ class IntervalsAdapter(
 
         }
         viewHolder.binding.plus.setOnClickListener {
+
+        }
+        viewHolder.itemView.setOnClickListener {
 
         }
         return viewHolder

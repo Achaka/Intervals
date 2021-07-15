@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.achaka.intervals.databinding.TrainingItemBinding
 
-class TrainingsAdapter(val onItemClickListener: (Training) -> Unit) :
+class TrainingsAdapter(private val onItemClickListener: (Training) -> Unit) :
     ListAdapter<Training, TrainingsAdapter.TrainingsAdapterViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrainingsAdapterViewHolder {
@@ -15,7 +15,7 @@ class TrainingsAdapter(val onItemClickListener: (Training) -> Unit) :
             LayoutInflater.from(parent.context)
         ))
         viewHolder.itemView.setOnClickListener {
-
+            onItemClickListener(getItem(viewHolder.adapterPosition))
         }
         return viewHolder
     }

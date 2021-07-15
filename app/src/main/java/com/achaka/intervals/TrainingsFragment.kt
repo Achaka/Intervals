@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.achaka.intervals.databinding.FragmentTrainingsBinding
 import com.achaka.intervals.databinding.TrainingItemBinding
@@ -37,8 +39,13 @@ class TrainingsFragment : Fragment() {
             )
             view?.findNavController()?.navigate(action)
         }
+
+
+
         recyclerView.adapter = adapter
         adapter.submitList(viewModel.getTestTrainings())
+
+
 
         return binding.root
     }
