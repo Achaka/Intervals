@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.achaka.intervals.databinding.FragmentPaceConverterBinding
 
 class PaceConverterFragment : Fragment() {
 
@@ -14,7 +15,42 @@ class PaceConverterFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
+
+        val binding = FragmentPaceConverterBinding.bind(inflater
+            .inflate(R.layout.fragment_pace_converter, container, false))
+
+
+
+        //change units
+        val dynamicUnitsText = binding.units
+
+        dynamicUnitsText.setOnClickListener {
+
+        }
+
+        when (dynamicUnitsText.text) {
+            getString(R.string.minPerKm) -> {
+                binding.firstFieldTitle.text = getString(R.string.minPerMile)
+                binding.secondFieldTitle.text = getString(R.string.kph)
+                binding.thirdFieldTitle.text = getString(R.string.mph)
+            }
+            getString(R.string.minPerMile) -> {
+                binding.firstFieldTitle.text = getString(R.string.minPerKm)
+                binding.secondFieldTitle.text = getString(R.string.kph)
+                binding.thirdFieldTitle.text = getString(R.string.mph)
+            }
+            getString(R.string.kph) -> {
+                binding.firstFieldTitle.text = getString(R.string.minPerKm)
+                binding.secondFieldTitle.text = getString(R.string.minPerMile)
+                binding.thirdFieldTitle.text = getString(R.string.mph)
+            }
+            getString(R.string.mph) -> {
+                binding.firstFieldTitle.text = getString(R.string.minPerKm)
+                binding.secondFieldTitle.text = getString(R.string.minPerMile)
+                binding.thirdFieldTitle.text = getString(R.string.kph)
+            }
+        }
+
         return inflater.inflate(R.layout.fragment_pace_converter, container, false)
     }
 }
