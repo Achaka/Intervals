@@ -4,6 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.achaka.intervals.interval.Interval
+import com.achaka.intervals.interval.IntervalDao
+import com.achaka.intervals.training.Training
+import com.achaka.intervals.training.TrainingDao
 
 @Database(entities = arrayOf(Training::class, Interval::class), version = 1)
 abstract class AppDatabase : RoomDatabase() {

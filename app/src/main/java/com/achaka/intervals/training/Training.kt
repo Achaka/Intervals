@@ -1,4 +1,4 @@
-package com.achaka.intervals
+package com.achaka.intervals.training
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

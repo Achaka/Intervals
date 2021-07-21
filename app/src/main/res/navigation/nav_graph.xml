@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/trainingsFragment"
-        android:name="com.achaka.intervals.TrainingsFragment"
+        android:name="com.achaka.intervals.training.TrainingsFragment"
         android:label="fragment_trainings"
         tools:layout="@layout/fragment_trainings" >
         <action
@@ -17,11 +17,23 @@
                 android:name="trainingId"
                 app:argType="long" />
         </action>
+        <action
+            android:id="@+id/action_trainingsFragment_to_insertTrainingFragment"
+            app:destination="@id/insertTrainingFragment" />
 
     </fragment>
     <fragment
         android:id="@+id/intervalsFragment"
-        android:name="com.achaka.intervals.IntervalsFragment"
+        android:name="com.achaka.intervals.interval.IntervalsFragment"
         android:label="fragment_intervals"
         tools:layout="@layout/fragment_intervals" />
+    <fragment
+        android:id="@+id/insertTrainingFragment"
+        android:name="com.achaka.intervals.training.InsertTrainingFragment"
+        android:label="fragment_insert_training"
+        tools:layout="@layout/fragment_insert_training" >
+        <action
+            android:id="@+id/action_insertTrainingFragment_to_intervalsFragment"
+            app:destination="@id/intervalsFragment" />
+    </fragment>
 </navigation>

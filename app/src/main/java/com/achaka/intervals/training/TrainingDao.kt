@@ -1,9 +1,10 @@
-package com.achaka.intervals
+package com.achaka.intervals.training
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
+import com.achaka.intervals.TrainingWithIntervals
 import kotlinx.coroutines.flow.Flow
 
 @Dao

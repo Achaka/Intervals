@@ -1,9 +1,10 @@
-package com.achaka.intervals
+package com.achaka.intervals.interval
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface IntervalDao {
@@ -11,7 +12,7 @@ interface IntervalDao {
 //    suspend fun getIntervals(trainingName: String): List<Interval>
 
     @Query("SELECT * FROM intervals WHERE training_id = :trainingId ORDER BY number ASC")
-    suspend fun getIntervals(trainingId: Long): MutableList<Interval>
+    fun getIntervals(trainingId: Long): Flow<List<Interval>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertInterval(interval: Interval)

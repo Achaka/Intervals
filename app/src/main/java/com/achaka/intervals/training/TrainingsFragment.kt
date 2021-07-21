@@ -1,25 +1,23 @@
-package com.achaka.intervals
+package com.achaka.intervals.training
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.coroutineScope
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.achaka.intervals.IntervalsApp
+import com.achaka.intervals.R
 import com.achaka.intervals.databinding.FragmentTrainingsBinding
-import com.achaka.intervals.databinding.TrainingItemBinding
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 
 class TrainingsFragment : Fragment() {
 
-    private val viewModel: IntervalsSharedViewModel by activityViewModels {
-        IntervalsSharedViewModelFactory(
-            (activity?.application as IntervalsApp).database.intervalDao(),
+    private val mViewModel: TrainingsViewModel by activityViewModels {
+        TrainingsViewModelFactory(
             (activity?.application as IntervalsApp).database.trainingDao()
         )
     }
@@ -40,12 +38,21 @@ class TrainingsFragment : Fragment() {
             view?.findNavController()?.navigate(action)
         }
 
+        binding.addTrainingFab.setOnClickListener {
+            val currentList = adapter.currentList.toMutableList()
+            currentList.add(Training(0, "name"))
+            adapter.submitList(currentList)
 
+//            val action = TrainingsFragmentDirections.actionTrainingsFragmentToInsertTrainingFragment()
+//            view?.findNavController()?.navigate(action)
+        }
 
         recyclerView.adapter = adapter
-        adapter.submitList(viewModel.getTestTrainings())
-
-
+        lifecycle.coroutineScope.launch {
+            mViewModel.getTrainings().collect {
+                adapter.submitList(it)
+            }
+        }
 
         return binding.root
     }

@@ -1,9 +1,7 @@
-package com.achaka.intervals
+package com.achaka.intervals.interval
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -16,39 +14,31 @@ class IntervalsAdapter(
     )
     : ListAdapter<Interval, IntervalsAdapter.IntervalViewHolder>(DiffCallback) {
 
-    private val intervals: List<Interval> = mutableListOf()
-
-    fun setData(list: List<Interval>) {
-
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IntervalViewHolder {
-        val viewHolder = IntervalViewHolder(
-            IntervalItemBinding.inflate(
-                LayoutInflater.from(parent.context)
-            )
-        )
-        viewHolder.binding.minus.setOnClickListener {
-
-        }
-        viewHolder.binding.plus.setOnClickListener {
-
-        }
-        viewHolder.itemView.setOnClickListener {
-
-        }
-        return viewHolder
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): IntervalViewHolder {
+        val intervalViewHolder = IntervalViewHolder(IntervalItemBinding.inflate(LayoutInflater.from(parent.context)))
+        return intervalViewHolder
     }
 
     override fun onBindViewHolder(holder: IntervalViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    class IntervalViewHolder(internal var binding: IntervalItemBinding) : RecyclerView.ViewHolder(binding.root){
+    class IntervalViewHolder(private var binding: IntervalItemBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(interval: Interval) {
             binding.intervalNumber.text = interval.number.toString()
-            binding.intervalDesc.text = interval.description
-            binding.suggestedPace.text = interval.suggestedPace
+            binding.minus.setOnClickListener {
+                binding.timeToGo
+            }
+            binding.timeToGo.text?.clear()
+            binding.timeToGo.text?.append(interval.seconds.toString())
+            binding.minus.setOnClickListener {
+                binding.timeToGo
+            }
+            binding.suggestedPace.text?.clear()
+            binding.suggestedPace.text?.append(interval.suggestedPace)
             if (interval.isCompleted) {
                 binding.status
             } else {

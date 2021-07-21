@@ -1,4 +1,4 @@
-package com.achaka.intervals
+package com.achaka.intervals.training
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
