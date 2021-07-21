@@ -1,11 +1,15 @@
 package com.achaka.intervals
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context.CLIPBOARD_SERVICE
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.achaka.intervals.databinding.FragmentPaceConverterBinding
+
 
 class PaceConverterFragment : Fragment() {
 
@@ -17,13 +21,18 @@ class PaceConverterFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
 
         val binding = FragmentPaceConverterBinding.bind(inflater
-            .inflate(R.layout.fragment_pace_converter, container, false))
+                .inflate(R.layout.fragment_pace_converter, container, false))
 
-
-
+        //copy result
+        val mainField = binding.textInputEditText
+        mainField.setOnLongClickListener {
+            val clipboardManager = requireContext().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("", mainField.text)
+            clipboardManager.setPrimaryClip(clip)
+            return@setOnLongClickListener true
+        }
         //change units
         val dynamicUnitsText = binding.units
-
         dynamicUnitsText.setOnClickListener {
 
         }
