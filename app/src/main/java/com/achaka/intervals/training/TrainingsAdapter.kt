@@ -1,7 +1,9 @@
 package com.achaka.intervals.training
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -26,7 +28,7 @@ class TrainingsAdapter(private val onItemClickListener: (Training) -> Unit) :
 
     class TrainingsAdapterViewHolder(private var binding: TrainingItemBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(training: Training) {
-            binding.name.text = training.trainingName
+            binding.name.text = training.trainingName + " " + training.id
         }
     }
 

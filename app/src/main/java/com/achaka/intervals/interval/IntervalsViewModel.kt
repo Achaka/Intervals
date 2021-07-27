@@ -23,8 +23,22 @@ class IntervalsViewModel(private val intervalDao: IntervalDao,
         }
     }
 
+    fun insertIntervals(intervals: List<Interval>) {
+        intervals.forEach {
+            scope.launch {
+                intervalDao.insertInterval(it)
+            }
+        }
+    }
+
     fun getIntervals(trainingId: Long): Flow<List<Interval>> {
         return intervalDao.getIntervals(trainingId)
+    }
+
+    fun clear(trainingId: Long) {
+        scope.launch {
+            intervalDao.deleteIntervalsFromTraining(trainingId)
+        }
     }
 
 }

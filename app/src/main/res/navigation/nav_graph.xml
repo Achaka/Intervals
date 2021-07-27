@@ -20,6 +20,9 @@
         <action
             android:id="@+id/action_trainingsFragment_to_insertTrainingFragment"
             app:destination="@id/insertTrainingFragment" />
+        <action
+            android:id="@+id/action_trainingsFragment_to_paceConverterFragment2"
+            app:destination="@id/paceConverterFragment2" />
 
     </fragment>
     <fragment
@@ -36,4 +39,9 @@
             android:id="@+id/action_insertTrainingFragment_to_intervalsFragment"
             app:destination="@id/intervalsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/paceConverterFragment2"
+        android:name="com.achaka.intervals.PaceConverterFragment"
+        android:label="fragment_pace_converter"
+        tools:layout="@layout/fragment_pace_converter" />
 </navigation>

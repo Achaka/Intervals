@@ -1,6 +1,7 @@
 package com.achaka.intervals.training
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -26,18 +27,21 @@ class TrainingsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val binding = FragmentTrainingsBinding.bind(inflater.inflate(R.layout.fragment_trainings, container, false))
 
         val recyclerView = binding.trainingsRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         val adapter = TrainingsAdapter {
+            Log.d("passed arg", it.id.toString())
             val action = TrainingsFragmentDirections.actionTrainingsFragmentToIntervalsFragment(
                 trainingId = it.id
             )
             view?.findNavController()?.navigate(action)
         }
 
+        binding.addTrainingFab.setImageResource(R.drawable.ic_sharp_add_24)
         binding.addTrainingFab.setOnClickListener {
             val currentList = adapter.currentList.toMutableList()
             currentList.add(Training(0, "name"))
@@ -53,6 +57,8 @@ class TrainingsFragment : Fragment() {
                 adapter.submitList(it)
             }
         }
+
+
 
         return binding.root
     }

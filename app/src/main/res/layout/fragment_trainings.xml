@@ -15,8 +15,8 @@
         android:id="@+id/add_training_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
+        android:layout_gravity="bottom|center"
         android:backgroundTint="@color/gray"
-        android:layout_margin="16dp"
+        android:layout_margin="32dp"
         />
 </FrameLayout>

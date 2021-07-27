@@ -10,7 +10,7 @@ import com.achaka.intervals.databinding.IntervalItemBinding
 class IntervalsAdapter(
     private val onPlusClicked: (Interval) -> Unit,
     private val onMinusClicked: (Interval) -> Unit,
-    private val onLongPress: (Interval) -> Unit
+    private val onItemLongPress: (Interval) -> Unit
     )
     : ListAdapter<Interval, IntervalsAdapter.IntervalViewHolder>(DiffCallback) {
 
