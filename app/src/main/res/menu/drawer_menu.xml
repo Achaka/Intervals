@@ -4,6 +4,6 @@
         android:id="@+id/trainingsFragment"
         />
     <item android:title="Pace Converter"
-        android:id="@+id/paceConverterFragment"
+        android:id="@+id/pace_converter_fragment"
         />
 </menu>

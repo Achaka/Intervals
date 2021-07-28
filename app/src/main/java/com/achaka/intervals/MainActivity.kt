@@ -8,10 +8,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.ui.*
 import com.achaka.intervals.training.TrainingsFragmentDirections
 import com.google.android.material.navigation.NavigationView
 
@@ -44,11 +41,6 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.paceConverterFragment) {
-            val action = TrainingsFragmentDirections.actionTrainingsFragmentToPaceConverterFragment2(
-            )
-            navController.navigate(action)
-        }
-        return super.onOptionsItemSelected(item)
+        return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
     }
 }
