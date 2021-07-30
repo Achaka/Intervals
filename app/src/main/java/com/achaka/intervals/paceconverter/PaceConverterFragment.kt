@@ -7,6 +7,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doBeforeTextChanged
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import com.achaka.intervals.R
 import com.achaka.intervals.databinding.FragmentPaceConverterBinding
@@ -24,6 +27,8 @@ class PaceConverterFragment : Fragment() {
         val binding = FragmentPaceConverterBinding.bind(inflater
                 .inflate(R.layout.fragment_pace_converter, container, false))
 
+
+
         //copy result
         val mainField = binding.textInputEditText
         mainField.setOnLongClickListener {
@@ -32,32 +37,56 @@ class PaceConverterFragment : Fragment() {
             clipboardManager.setPrimaryClip(clip)
             return@setOnLongClickListener true
         }
+        //here to set dividers : for paces and . for miles, set boundaries, max values
+        //count asynchronously values for fields when text changes
+        mainField.doBeforeTextChanged { text, start, count, after ->  }
+        mainField.doOnTextChanged { text, start, before, count ->  }
+        mainField.doAfterTextChanged {  }
+
         //change units
         val dynamicUnitsText = binding.units
         dynamicUnitsText.setOnClickListener {
-
-        }
-
-        when (dynamicUnitsText.text) {
-            getString(R.string.minPerKm) -> {
-                binding.firstFieldTitle.text = getString(R.string.minPerMile)
-                binding.secondFieldTitle.text = getString(R.string.kph)
-                binding.thirdFieldTitle.text = getString(R.string.mph)
-            }
-            getString(R.string.minPerMile) -> {
-                binding.firstFieldTitle.text = getString(R.string.minPerKm)
-                binding.secondFieldTitle.text = getString(R.string.kph)
-                binding.thirdFieldTitle.text = getString(R.string.mph)
-            }
-            getString(R.string.kph) -> {
-                binding.firstFieldTitle.text = getString(R.string.minPerKm)
-                binding.secondFieldTitle.text = getString(R.string.minPerMile)
-                binding.thirdFieldTitle.text = getString(R.string.mph)
-            }
-            getString(R.string.mph) -> {
-                binding.firstFieldTitle.text = getString(R.string.minPerKm)
-                binding.secondFieldTitle.text = getString(R.string.minPerMile)
-                binding.thirdFieldTitle.text = getString(R.string.kph)
+            when (dynamicUnitsText.text) {
+                getString(R.string.minPerKm) -> {
+                    //values
+                    binding.firstFieldValue.text
+                    binding.secondFieldValue.text
+                    binding.thirdFieldValue.text
+                    //units
+                    binding.firstFieldTitle.text = getString(R.string.minPerMile)
+                    binding.secondFieldTitle.text = getString(R.string.kph)
+                    binding.thirdFieldTitle.text = getString(R.string.mph)
+                }
+                getString(R.string.minPerMile) -> {
+                    //values
+                    binding.firstFieldValue.text
+                    binding.secondFieldValue.text
+                    binding.thirdFieldValue.text
+                    //units
+                    binding.firstFieldTitle.text = getString(R.string.minPerKm)
+                    binding.secondFieldTitle.text = getString(R.string.kph)
+                    binding.thirdFieldTitle.text = getString(R.string.mph)
+                }
+                getString(R.string.kph) -> {
+                    //values
+                    binding.firstFieldValue.text
+                    binding.secondFieldValue.text
+                    binding.thirdFieldValue.text
+                    //units
+                    binding.firstFieldTitle.text = getString(R.string.minPerKm)
+                    binding.secondFieldTitle.text = getString(R.string.minPerMile)
+                    binding.thirdFieldTitle.text = getString(R.string.mph)
+                }
+                getString(R.string.mph) -> {
+                    //values
+                    binding.firstFieldValue.text
+                    binding.secondFieldValue.text
+                    binding.thirdFieldValue.text
+                    //units
+                    binding.firstFieldTitle.text = getString(R.string.minPerKm)
+                    binding.secondFieldTitle.text = getString(R.string.minPerMile)
+                    binding.thirdFieldTitle.text = getString(R.string.kph)
+                }
             }
         }
 
