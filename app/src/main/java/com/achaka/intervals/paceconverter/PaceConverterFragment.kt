@@ -1,4 +1,4 @@
-package com.achaka.intervals
+package com.achaka.intervals.paceconverter
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.achaka.intervals.R
 import com.achaka.intervals.databinding.FragmentPaceConverterBinding
 
 
