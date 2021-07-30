@@ -39,12 +39,11 @@ class PaceConverterFragment : Fragment() {
         }
         //here to set dividers : for paces and . for miles, set boundaries, max values
         //count asynchronously values for fields when text changes
-        mainField.doBeforeTextChanged { text, start, count, after ->  }
-        mainField.doOnTextChanged { text, start, before, count ->  }
-        mainField.doAfterTextChanged {  }
+
+        val dynamicUnitsText = binding.units
 
         //change units
-        val dynamicUnitsText = binding.units
+
         dynamicUnitsText.setOnClickListener {
             when (dynamicUnitsText.text) {
                 getString(R.string.minPerKm) -> {
@@ -88,6 +87,13 @@ class PaceConverterFragment : Fragment() {
                     binding.thirdFieldTitle.text = getString(R.string.kph)
                 }
             }
+        }
+
+        mainField.doAfterTextChanged {
+            when (dynamicUnitsText.text) {
+
+            }
+            mainField.text.toString()
         }
 
         return inflater.inflate(R.layout.fragment_pace_converter, container, false)
