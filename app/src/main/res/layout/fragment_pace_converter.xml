@@ -8,22 +8,26 @@
     tools:context=".paceconverter.PaceConverterFragment">
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/textInputEditText"
+        android:id="@+id/main_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.452"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:digits="01234567890"
+        android:maxLength="5"
+        />
 
     <TextView
         android:id="@+id/units"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textInputEditText"
-        app:layout_constraintStart_toEndOf="@+id/textInputEditText"
-        app:layout_constraintTop_toTopOf="@+id/textInputEditText" />
+        android:text="units"
+        app:layout_constraintBottom_toBottomOf="@+id/main_field"
+        app:layout_constraintStart_toEndOf="@+id/main_field"
+        app:layout_constraintTop_toTopOf="@+id/main_field" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="wrap_content"
@@ -31,7 +35,7 @@
         android:layout_marginTop="96dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/main_field" />
 
     <TextView
         android:id="@+id/first_field_title"
@@ -41,7 +45,7 @@
         android:layout_marginTop="16dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/main_field" />
 
     <TextView
         android:id="@+id/second_field_title"
@@ -51,7 +55,7 @@
         android:text="TextView"
         app:layout_constraintEnd_toStartOf="@+id/third_field_title"
         app:layout_constraintStart_toEndOf="@+id/first_field_title"
-        app:layout_constraintTop_toBottomOf="@+id/textInputEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/main_field" />
 
     <TextView
         android:id="@+id/third_field_title"
@@ -61,7 +65,7 @@
         android:layout_marginEnd="16dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/main_field" />
 
     <TextView
         android:id="@+id/first_field_value"

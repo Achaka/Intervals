@@ -38,7 +38,7 @@
     </fragment>
     <fragment
         android:id="@+id/pace_converter_fragment"
-        android:name="com.achaka.intervals.PaceConverterFragment"
+        android:name="com.achaka.intervals.paceconverter.PaceConverterFragment"
         android:label="fragment_pace_converter"
         tools:layout="@layout/fragment_pace_converter" />
 </navigation>

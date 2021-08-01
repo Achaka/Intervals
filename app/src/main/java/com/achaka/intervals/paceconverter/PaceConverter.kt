@@ -5,11 +5,11 @@ class PaceConverter {
     companion object {
 
         fun convertMilePaceToKmPace(secondsOnMile: Int): Float {
-            return secondsOnMile / 1.60934F
+            return secondsOnMile / 0.62137F
         }
 
         fun convertKmPaceToMilePace(secondsOnKm: Int): Float {
-            return secondsOnKm * 0.62137F
+            return secondsOnKm * 1.60934F
         }
 
         fun minutesStringToSeconds(timeString: String): Int {
@@ -23,6 +23,5 @@ class PaceConverter {
             val remainingSeconds = seconds % 60
             return "$minutes:$remainingSeconds"
         }
-
     }
 }
