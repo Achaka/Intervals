@@ -1,13 +1,11 @@
 package com.achaka.intervals.interval
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface IntervalDao {
+
 //    @Query("SELECT * FROM intervals ORDER BY number ASC ")
 //    suspend fun getIntervals(trainingName: String): List<Interval>
 
@@ -22,5 +20,14 @@ interface IntervalDao {
 
     @Query("DELETE FROM intervals WHERE interval_id = :intervalId")
     suspend fun deleteInterval(intervalId: Int)
+
+    @Update()
+    suspend fun updateIntervals(intervals: List<Interval>)
+
+//    @Query("UPDATE intervals set description = :newDesc WHERE interval_id = :intervalId")
+//    suspend fun updateDescIntervalsById(intervalId: Int, newDesc: String)
+
+    @Update()
+    suspend fun updateInterval(interval: Interval)
 
 }

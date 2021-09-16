@@ -3,6 +3,7 @@ package com.achaka.intervals.training
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.coroutineScope
@@ -11,11 +12,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.achaka.intervals.IntervalsApp
 import com.achaka.intervals.R
 import com.achaka.intervals.databinding.FragmentTrainingsBinding
+import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 
+
 class TrainingsFragment : Fragment() {
+
+    private val subscriptions = CompositeDisposable()
 
     private val mViewModel: TrainingsViewModel by activityViewModels {
         TrainingsViewModelFactory(
@@ -52,13 +58,18 @@ class TrainingsFragment : Fragment() {
         }
 
         recyclerView.adapter = adapter
-        lifecycle.coroutineScope.launch {
-            mViewModel.getTrainings().collect {
-                adapter.submitList(it)
-            }
-        }
+//        lifecycle.coroutineScope.launch {
+//            mViewModel.getTrainings().collect {
+//                adapter.submitList(it)
+//            }
+//        }
 
+        val trainingsObserver = mViewModel.getTrainings().subscribe(
+            {adapter.submitList(it)},
+            {Toast.makeText(this.context, "", Toast.LENGTH_SHORT).show()}
+        )
 
+        subscriptions.add(trainingsObserver)
 
         return binding.root
     }

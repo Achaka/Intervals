@@ -2,12 +2,15 @@ package com.achaka.intervals.interval
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class IntervalsViewModel(private val intervalDao: IntervalDao,
                                ): ViewModel() {
 
+
+    private val subscriptions = CompositeDisposable()
     val scope = viewModelScope
 
     fun getTestIntervals(): MutableList<Interval> {
@@ -34,6 +37,37 @@ class IntervalsViewModel(private val intervalDao: IntervalDao,
     fun getIntervals(trainingId: Long): Flow<List<Interval>> {
         return intervalDao.getIntervals(trainingId)
     }
+
+    fun updateIntervals(intervals: List<Interval>) {
+        scope.launch {
+            intervalDao.updateIntervals(intervals)
+        }
+    }
+
+    fun updateInterval(interval: Interval) {
+        scope.launch { intervalDao.updateInterval(interval) }
+    }
+
+
+//    fun updateDescIntervalsById(intervalId: Int, newDesc: String) {
+//        scope.launch { intervalDao.updateDescIntervalsById(intervalId, newDesc) }
+//    }
+//
+//    fun updateTimeToGoById(intervalId: Int, newTimeToGo: String) {
+//        scope.launch { intervalDao.updateDescIntervalsById(intervalId, newTimeToGo) }
+//    }
+//
+//    fun updateSuggestedPaceById(intervalId: Int, newSuggestedPace: String) {
+//        scope.launch { intervalDao.updateDescIntervalsById(intervalId, newSuggestedPace) }
+//    }
+//
+//    fun updateNumberById(intervalId: Int, newNumber: String) {
+//        scope.launch { intervalDao.updateDescIntervalsById(intervalId, newNumber) }
+//    }
+//
+//    fun updateById() {
+//
+//    }
 
     fun clear(trainingId: Long) {
         scope.launch {
