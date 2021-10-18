@@ -1,6 +1,5 @@
-package com.achaka.intervals.paceconverter
+package com.achaka.intervals.paceconverter.util
 
-import android.util.Log
 import java.lang.NumberFormatException
 import kotlin.math.roundToInt
 
@@ -9,40 +8,39 @@ class PaceConverter {
     companion object {
 
         //KmPace
-        fun convertKmPaceToMilePace(secondsOnKm: Int): Int {
+        private fun convertKmPaceToMilePace(secondsOnKm: Int): Int {
             return (secondsOnKm * 1.60934F).roundToInt()
         }
 
         //MilePace
-        fun convertMilePaceToKmPace(secondsOnMile: Int): Int {
+        private fun convertMilePaceToKmPace(secondsOnMile: Int): Int {
             return (secondsOnMile / 1.60934F).roundToInt()
         }
 
         //Kph
-        fun kphToMph(kph: Float): Float {
+        private fun kphToMph(kph: Float): Float {
             return kph * 0.62137F
         }
 
-        fun mphToKph(mph: Float): Float {
+        private fun mphToKph(mph: Float): Float {
             return mph * 1.60934F
         }
 
         //speed-pace
-        fun convertSpeedToPace(speed: Float): Int {
-            Log.d("convertSpeedToPace", ((3600F/speed).roundToInt().toString()))
+        private fun convertSpeedToPace(speed: Float): Int {
             return if (speed != 0F)
                 (3600F/speed).roundToInt()
             else 0
         }
 
-        fun convertPaceToSpeed(seconds: Int): Float {
+        private fun convertPaceToSpeed(seconds: Int): Float {
             return  if (seconds!= 0)
                 1/(seconds/3600F)
             else 0F
         }
 
         //output strings
-        fun minutesStringToSeconds(timeString: String): Int {
+        private fun minutesStringToSeconds(timeString: String): Int {
             val delimiter = ":"
             return if (timeString.isNotEmpty() && (timeString.contains(":"))) {
                 val beforeDelim = timeString.substringBefore(delimiter)
@@ -118,12 +116,10 @@ class PaceConverter {
             )
         }
         fun calculateInMph(mph: String): List<String> {
-            var speed: Float
-            try {
-                speed = mph.toFloat()
-                Log.d("speed", speed.toString())
+            val speed: Float = try {
+                mph.toFloat()
             } catch (ex: NumberFormatException) {
-                speed = 0F
+                0F
             }
 
             val milePace = convertSpeedToPace(speed)

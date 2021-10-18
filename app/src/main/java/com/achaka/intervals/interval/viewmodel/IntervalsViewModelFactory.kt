@@ -1,7 +1,8 @@
-package com.achaka.intervals.interval
+package com.achaka.intervals.interval.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.achaka.intervals.interval.model.IntervalDao
 import java.lang.IllegalArgumentException
 
 class IntervalsViewModelFactory(private val intervalDao: IntervalDao)

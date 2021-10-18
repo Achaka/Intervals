@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">Intervals</string>
+    //menus
+    <string name="trainingsDrawer">Trainings</string>
+    <string name="paceConverterDrawer">Pace Converter</string>
+    <string name="intervalMenuTitleConfirm">Confirm</string>
+    <string name="intervalMenuTitleEdit">Edit</string>
     //dividers
     <string name="colon">:</string>
     <string name="dot">.</string>
@@ -8,4 +13,10 @@
     <string name="minPerMile">min/mile</string>
     <string name="kph">kph</string>
     <string name="mph">mph</string>
+
+    <string name="trainingsLoadError">Couldn\'t retrieve trainings from database</string>
+    <string name="intervalsLoadError">Couldn\'t retrieve intervals for the training</string>
+    <string name="trainingEmptyNameError">Training name cannot be empty</string>
+
+    <string name="unknownError">Something went wrong</string>
 </resources>

@@ -1,7 +1,8 @@
-package com.achaka.intervals.training
+package com.achaka.intervals.training.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.achaka.intervals.training.model.TrainingDao
 import java.lang.IllegalArgumentException
 
 class TrainingsViewModelFactory(private val trainingDao: TrainingDao): ViewModelProvider.Factory{

@@ -3,21 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".interval.IntervalsFragment">
+    tools:context=".interval.ui.IntervalsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/intervals_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-    <TextView
-        android:id="@+id/empty_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="ADD YOUR INTERVALS HERE!"
-        android:fontFamily="@font/lemon_milk_regular"
-        />
+        android:layout_height="match_parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_interval_fab"
@@ -25,8 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:layout_margin="32dp"
-        android:backgroundTint="@color/gray"
-        />
+        android:backgroundTint="@color/gray" />
 
     <Button
         android:id="@+id/button"

@@ -3,20 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".training.TrainingsFragment">
+    tools:context=".training.ui.TrainingsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/trainings_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_training_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
-        android:backgroundTint="@color/gray"
         android:layout_margin="32dp"
-        />
+        android:backgroundTint="@color/gray" />
 </FrameLayout>

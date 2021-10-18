@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="Trainings"
+    <item
         android:id="@+id/trainingsFragment"
-        />
-    <item android:title="Pace Converter"
+        android:title="@string/trainingsDrawer" />
+    <item
         android:id="@+id/pace_converter_fragment"
-        />
+        android:title="@string/paceConverterDrawer" />
 </menu>

@@ -11,26 +11,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.doAfterTextChanged
-import androidx.core.widget.doBeforeTextChanged
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.achaka.intervals.R
 import com.achaka.intervals.databinding.FragmentPaceConverterBinding
-import com.achaka.intervals.paceconverter.PaceConverter.Companion.calculateInKmPace
-import com.achaka.intervals.paceconverter.PaceConverter.Companion.calculateInKph
-import com.achaka.intervals.paceconverter.PaceConverter.Companion.calculateInMilePace
-import com.achaka.intervals.paceconverter.PaceConverter.Companion.calculateInMph
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
-import kotlin.math.min
+import com.achaka.intervals.paceconverter.util.PaceConverter.Companion.calculateInKmPace
+import com.achaka.intervals.paceconverter.util.PaceConverter.Companion.calculateInKph
+import com.achaka.intervals.paceconverter.util.PaceConverter.Companion.calculateInMilePace
+import com.achaka.intervals.paceconverter.util.PaceConverter.Companion.calculateInMph
 
 
 class PaceConverterFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
 
         val binding = FragmentPaceConverterBinding.bind(inflater.inflate(R.layout.fragment_pace_converter, container, false))
 

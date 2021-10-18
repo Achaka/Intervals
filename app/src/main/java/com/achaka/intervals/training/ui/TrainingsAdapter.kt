@@ -1,15 +1,16 @@
-package com.achaka.intervals.training
+package com.achaka.intervals.training.ui
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.achaka.intervals.databinding.TrainingItemBinding
+import com.achaka.intervals.training.model.Training
 
-class TrainingsAdapter(private val onItemClickListener: (Training) -> Unit) :
+class TrainingsAdapter(private val onItemClickListener: (Training) -> Unit,
+                       private val onDeleteClickListener: (trainingId: Long) -> Unit
+                       ) :
     ListAdapter<Training, TrainingsAdapter.TrainingsAdapterViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrainingsAdapterViewHolder {
@@ -26,9 +27,12 @@ class TrainingsAdapter(private val onItemClickListener: (Training) -> Unit) :
         holder.bind(getItem(position))
     }
 
-    class TrainingsAdapterViewHolder(private var binding: TrainingItemBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class TrainingsAdapterViewHolder(private var binding: TrainingItemBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(training: Training) {
-            binding.name.text = training.trainingName + " " + training.id
+            binding.name.text = training.trainingName
+            binding.delete.setOnClickListener {
+                onDeleteClickListener(training.id)
+            }
         }
     }
 

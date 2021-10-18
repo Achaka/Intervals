@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/trainingsFragment"
-        android:name="com.achaka.intervals.training.TrainingsFragment"
+        android:name="com.achaka.intervals.training.ui.TrainingsFragment"
         android:label="fragment_trainings"
-        tools:layout="@layout/fragment_trainings" >
+        tools:layout="@layout/fragment_trainings">
         <action
             android:id="@+id/action_trainingsFragment_to_intervalsFragment"
             app:destination="@id/intervalsFragment">
@@ -24,18 +24,42 @@
     </fragment>
     <fragment
         android:id="@+id/intervalsFragment"
-        android:name="com.achaka.intervals.interval.IntervalsFragment"
+        android:name="com.achaka.intervals.interval.ui.IntervalsFragment"
         android:label="fragment_intervals"
-        tools:layout="@layout/fragment_intervals" />
+        tools:layout="@layout/fragment_intervals">
+        <argument
+            android:name="intervalsMode"
+            android:defaultValue="REGULAR_MODE"
+            app:argType="com.achaka.intervals.interval.model.IntervalFragmentMode" />
+        <argument
+            android:name="newTrainingName"
+            android:defaultValue=""
+            app:argType="string" />
+        <action
+            android:id="@+id/action_intervalsFragment_to_trainingsFragment"
+            app:destination="@id/trainingsFragment"
+            app:popUpTo="@id/trainingsFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/insertTrainingFragment"
-        android:name="com.achaka.intervals.training.InsertTrainingFragment"
+        android:name="com.achaka.intervals.training.ui.InsertTrainingFragment"
         android:label="fragment_insert_training"
-        tools:layout="@layout/fragment_insert_training" >
+        tools:layout="@layout/fragment_insert_training">
         <action
             android:id="@+id/action_insertTrainingFragment_to_intervalsFragment"
-            app:destination="@id/intervalsFragment" />
+            app:destination="@id/intervalsFragment">
+            <argument
+                android:name="intervalsMode"
+                android:defaultValue="REGULAR_MODE"
+                app:argType="com.achaka.intervals.interval.model.IntervalFragmentMode" />
+            <argument
+                android:name="newTrainingName"
+                android:defaultValue=""
+                app:argType="string" />
+        </action>
     </fragment>
+
     <fragment
         android:id="@+id/pace_converter_fragment"
         android:name="com.achaka.intervals.paceconverter.PaceConverterFragment"
