@@ -4,22 +4,14 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
-import com.achaka.intervals.IntervalsApp
 import com.achaka.intervals.R
 import com.achaka.intervals.databinding.FragmentInsertTrainingBinding
 import com.achaka.intervals.interval.model.IntervalFragmentMode
-import com.achaka.intervals.training.viewmodel.TrainingsViewModel
-import com.achaka.intervals.training.viewmodel.TrainingsViewModelFactory
+
 
 class InsertTrainingFragment : Fragment() {
 
-    private val mViewModel: TrainingsViewModel by activityViewModels {
-        TrainingsViewModelFactory(
-            (activity?.application as IntervalsApp).database.trainingDao()
-        )
-    }
     private lateinit var binding: FragmentInsertTrainingBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,14 +25,9 @@ class InsertTrainingFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentInsertTrainingBinding.inflate(inflater, container, false)
-
         return binding.root
     }
-//
-//    fun insertTraining(training: Training) {
-//        //scheduler
-//        mViewModel.insertTraining(training)
-//    }
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.insert_training_menu, menu)

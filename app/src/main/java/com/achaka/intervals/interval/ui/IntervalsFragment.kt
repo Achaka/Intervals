@@ -247,7 +247,9 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
             })
         subscriptions.add(insertIntervalsSub)
     }
-
+    /*
+    * Вставка списка интервалов и создание новой тренировки
+    */
     private fun insertIntervalsWithTraining(trainingName: String?) {
         if (trainingName!=null) {
             val insertSub = mTrainingsViewModel.insertTraining(Training(0L, trainingName))
@@ -338,10 +340,14 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
         override fun onTick(millisUntilFinished: Long) {
             when (millisUntilFinished%1000<50) {
                 true -> {
-                    //Update time to go
+                    /*
+                     * Обновление оставшегося времени
+                    */
                     val toGo = (millisUntilFinished / 1000).toInt()
                     adapter.currentList[cp].seconds = toGo
-                    //Update progress indicator
+                    /*
+                     * * Обновление progressIndicator
+                    */
                     adapter.currentList[cp].progress = 100-((toGo.toFloat()/initialTimerValues[cp])*100).toInt()
                     adapter.notifyItemChanged(cp)
                 }
@@ -361,6 +367,9 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
         }
     }
 
+    /*
+    * * Сброс адаптера до начальных значений
+    */
     private fun resetAdapter() {
         val list = adapter.currentList
         list.forEachIndexed {index, interval -> interval.seconds = initialValues[index] }
