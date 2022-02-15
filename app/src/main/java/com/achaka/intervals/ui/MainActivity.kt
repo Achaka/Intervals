@@ -1,4 +1,4 @@
-package com.achaka.intervals
+package com.achaka.intervals.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,6 +8,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.*
+import com.achaka.intervals.R
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {

@@ -1,2 +1,5 @@
 rootProject.name = "Intervals"
 include ':app'
+include ':core_module'
+include ':trainings_screen'
+include ':intervals_screen'
