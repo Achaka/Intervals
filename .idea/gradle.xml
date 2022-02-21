@@ -12,9 +12,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/core_module" />
-            <option value="$PROJECT_DIR$/intervals_screen" />
-            <option value="$PROJECT_DIR$/trainings_screen" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

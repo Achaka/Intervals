@@ -47,16 +47,6 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
 
     private var sNewTrainingName: String = ""
     private var trainingId: Long = 0
-    private val mViewModel: IntervalsViewModel by viewModels {
-        IntervalsViewModelFactory(
-            (activity?.application as IntervalsApp).database.intervalDao()
-        )
-    }
-    private val mTrainingsViewModel: TrainingsViewModel by viewModels {
-        TrainingsViewModelFactory(
-            (activity?.application as IntervalsApp).database.trainingDao()
-        )
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -90,13 +80,6 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
 
         //RegularMode by default
         adapter.setMode(IntervalFragmentMode.REGULAR_MODE)
-
-        val intervalsObserver = getIntervals()
-        subscriptions.add(intervalsObserver)
-
-        binding.button.setOnClickListener {
-            clear()
-        }
 
         return binding.root
     }
@@ -142,7 +125,7 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
             progress = 0)
         currentList.add(defaultInterval)
         if (sMode == IntervalFragmentMode.EDIT_MODE) {
-            insertNewInterval(defaultInterval)
+//            insertNewInterval(defaultInterval)
         }
         adapter.submitList(currentList)
     }
@@ -197,137 +180,132 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.edit_intervals -> {
-                sMode = IntervalFragmentMode.EDIT_MODE
-            }
-            R.id.confirm -> {
-                if (sMode == IntervalFragmentMode.NEW_TRAINING_EDIT_MODE
-                    && sNewTrainingName.isNotEmpty()) {
-                    insertIntervalsWithTraining(sNewTrainingName)
-                }
-                updateIntervals(adapter.currentList)
-                sMode = IntervalFragmentMode.REGULAR_MODE
-                adapter.setMode(sMode)
-                recyclerView.adapter = adapter
-            }
-        }
+//        when (item.itemId) {
+//            R.id.edit_intervals -> {
+//                sMode = IntervalFragmentMode.EDIT_MODE
+//            }
+//            R.id.confirm -> {
+//                if (sMode == IntervalFragmentMode.NEW_TRAINING_EDIT_MODE
+//                    && sNewTrainingName.isNotEmpty()) {
+//                    insertIntervalsWithTraining(sNewTrainingName)
+//                }
+//                updateIntervals(adapter.currentList)
+//                sMode = IntervalFragmentMode.REGULAR_MODE
+//                adapter.setMode(sMode)
+//                recyclerView.adapter = adapter
+//            }
+//        }
         return super.onOptionsItemSelected(item)
     }
-
-    //VIEW MODEL
-    /*
-   * Вставка одного интервала
-   */
-    private fun insertNewInterval(interval: Interval) {
-        val insertSub = mViewModel.insertInterval(interval)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                //do nothing
-            }, {
-                Toast.makeText(this.requireContext(), getString(R.string.unknownError), Toast.LENGTH_SHORT).show()
-            })
-        subscriptions.add(insertSub)
-     }
-    /*
-    * Вставка списка интервалов - используется при создании новой тренировки
-    */
-    private fun insertNewIntervals(trainingId: Long) {
-        val intervals = adapter.currentList
-        intervals.forEach { it.trainingId = trainingId }
-        val insertIntervalsSub = mViewModel.insertIntervals(intervals)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                val intervalsObserver = getIntervals()
-                subscriptions.add(intervalsObserver)
-            }, {
-                Toast.makeText(this.requireContext(), getString(R.string.unknownError), Toast.LENGTH_SHORT).show()
-            })
-        subscriptions.add(insertIntervalsSub)
-    }
-    /*
-    * Вставка списка интервалов и создание новой тренировки
-    */
-    private fun insertIntervalsWithTraining(trainingName: String?) {
-        if (trainingName!=null) {
-            val insertSub = mTrainingsViewModel.insertTraining(Training(0L, trainingName))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                {
-                    insertNewIntervals(it)
-                    trainingId = it
-                    getIntervals()
-                },
-                {
-                    Toast.makeText(this.requireContext(), getString(R.string.unknownError), Toast.LENGTH_SHORT).show()
-                }
-            )
-            subscriptions.add(insertSub)
-        }
-    }
-
-    private fun getIntervals() =
-        mViewModel.getIntervals(trainingId)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    initialValues.clear()
-                    it.forEach { initialValues.add(it.seconds) }
-                    adapter.submitList(it)
-                },
-                {
-                    Toast.makeText(this.context, getString(R.string.intervalsLoadError), Toast.LENGTH_SHORT).show()
-                }
-            )
-
-    private fun updateIntervals(list: List<Interval>) {
-        val updateSub = mViewModel.updateIntervals(list)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                //do nothing
-            },{
-                Toast.makeText(this.requireContext(), getString(R.string.unknownError), Toast.LENGTH_SHORT).show()
-            })
-        subscriptions.add(updateSub)
-    }
-
-    override fun deleteInterval(intervalId: Long) {
-        val currentList = adapter.currentList.toMutableList()
-
-        fun removeItem() {
-            currentList.removeIf{ it.id == intervalId }
-            currentList.forEachIndexed{index, interval -> interval.number = index+1 }
-        }
-
-        when(sMode) {
-            IntervalFragmentMode.NEW_TRAINING_EDIT_MODE -> {
-                removeItem()
-                adapter.submitList(currentList)
-                adapter.notifyDataSetChanged()
-            }
-            else -> {
-                removeItem()
-                val deleteIntervalSub = mViewModel.deleteInterval(intervalId)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({
-                        updateIntervals(currentList)
-                        adapter.notifyDataSetChanged()
-                    }, {
-                        Toast.makeText(this.requireContext(), getString(R.string.unknownError), Toast.LENGTH_SHORT).show()
-                    })
-                subscriptions.add(deleteIntervalSub)
-            }
-        }
-    }
-    fun clear() {
-        trainingId.let { mViewModel.clear(it) }
-    }
+//    private fun insertNewInterval(interval: Interval) {
+//        val insertSub = mViewModel.insertInterval(interval)
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe({
+//                //do nothing
+//            }, {
+//                Toast.makeText(this.requireContext(), getString(R.string.unknownError), Toast.LENGTH_SHORT).show()
+//            })
+//        subscriptions.add(insertSub)
+//     }
+//    /*
+//    * Вставка списка интервалов - используется при создании новой тренировки
+//    */
+//    private fun insertNewIntervals(trainingId: Long) {
+//        val intervals = adapter.currentList
+//        intervals.forEach { it.trainingId = trainingId }
+//        val insertIntervalsSub = mViewModel.insertIntervals(intervals)
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe({
+//                val intervalsObserver = getIntervals()
+//                subscriptions.add(intervalsObserver)
+//            }, {
+//                Toast.makeText(this.requireContext(), getString(R.string.unknownError), Toast.LENGTH_SHORT).show()
+//            })
+//        subscriptions.add(insertIntervalsSub)
+//    }
+//    /*
+//    * Вставка списка интервалов и создание новой тренировки
+//    */
+//    private fun insertIntervalsWithTraining(trainingName: String?) {
+//        if (trainingName!=null) {
+//            val insertSub = mTrainingsViewModel.insertTraining(Training(0L, trainingName))
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(
+//                {
+//                    insertNewIntervals(it)
+//                    trainingId = it
+//                    getIntervals()
+//                },
+//                {
+//                    Toast.makeText(this.requireContext(), getString(R.string.unknownError), Toast.LENGTH_SHORT).show()
+//                }
+//            )
+//            subscriptions.add(insertSub)
+//        }
+//    }
+//
+//    private fun getIntervals() =
+//        mViewModel.getIntervals(trainingId)
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe(
+//                {
+//                    initialValues.clear()
+//                    it.forEach { initialValues.add(it.seconds) }
+//                    adapter.submitList(it)
+//                },
+//                {
+//                    Toast.makeText(this.context, getString(R.string.intervalsLoadError), Toast.LENGTH_SHORT).show()
+//                }
+//            )
+//
+//    private fun updateIntervals(list: List<Interval>) {
+//        val updateSub = mViewModel.updateIntervals(list)
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe({
+//                //do nothing
+//            },{
+//                Toast.makeText(this.requireContext(), getString(R.string.unknownError), Toast.LENGTH_SHORT).show()
+//            })
+//        subscriptions.add(updateSub)
+//    }
+//
+//    override fun deleteInterval(intervalId: Long) {
+//        val currentList = adapter.currentList.toMutableList()
+//
+//        fun removeItem() {
+//            currentList.removeIf{ it.id == intervalId }
+//            currentList.forEachIndexed{index, interval -> interval.number = index+1 }
+//        }
+//
+//        when(sMode) {
+//            IntervalFragmentMode.NEW_TRAINING_EDIT_MODE -> {
+//                removeItem()
+//                adapter.submitList(currentList)
+//                adapter.notifyDataSetChanged()
+//            }
+//            else -> {
+//                removeItem()
+//                val deleteIntervalSub = mViewModel.deleteInterval(intervalId)
+//                    .subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe({
+//                        updateIntervals(currentList)
+//                        adapter.notifyDataSetChanged()
+//                    }, {
+//                        Toast.makeText(this.requireContext(), getString(R.string.unknownError), Toast.LENGTH_SHORT).show()
+//                    })
+//                subscriptions.add(deleteIntervalSub)
+//            }
+//        }
+//    }
+//    fun clear() {
+//        trainingId.let { mViewModel.clear(it) }
+//    }
 
 
 /////////////////////////////////////////
@@ -367,14 +345,15 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
         }
     }
 
-    /*
-    * * Сброс адаптера до начальных значений
-    */
     private fun resetAdapter() {
         val list = adapter.currentList
         list.forEachIndexed {index, interval -> interval.seconds = initialValues[index] }
         list.forEach { interval -> interval.progress = 0 }
         adapter.submitList(list)
         adapter.notifyDataSetChanged()
+    }
+
+    override fun deleteInterval(intervalId: Long) {
+
     }
 }
