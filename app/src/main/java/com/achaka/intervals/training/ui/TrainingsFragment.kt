@@ -42,7 +42,8 @@ class TrainingsFragment : Fragment() {
 
         setHasOptionsMenu(true)
 
-        (requireActivity().applicationContext as IntervalsApp).appComponent.inject(this)
+        (requireActivity().applicationContext as IntervalsApp).trainingComponent.inject(this)
+//        (requireActivity().applicationContext as IntervalsApp).appComponent.inject(this)
 
         val binding = FragmentTrainingsBinding.bind(
             inflater.inflate(

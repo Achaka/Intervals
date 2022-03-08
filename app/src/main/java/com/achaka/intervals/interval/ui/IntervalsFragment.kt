@@ -3,16 +3,11 @@ package com.achaka.intervals.interval.ui
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.achaka.intervals.IntervalsApp
 import com.achaka.intervals.R
 import com.achaka.intervals.databinding.FragmentIntervalsBinding
-import com.achaka.intervals.interval.viewmodel.IntervalsViewModel
-import com.achaka.intervals.interval.viewmodel.IntervalsViewModelFactory
 import com.achaka.intervals.interval.model.Interval
 import com.achaka.intervals.interval.model.IntervalFragmentMode
 import com.achaka.intervals.training.viewmodel.TrainingsViewModel

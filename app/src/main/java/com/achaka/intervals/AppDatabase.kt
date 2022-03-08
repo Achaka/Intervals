@@ -13,6 +13,5 @@ import com.achaka.intervals.training.model.TrainingDao
 abstract class AppDatabase : RoomDatabase() {
     abstract fun intervalDao(): IntervalDao
     abstract fun trainingDao(): TrainingDao
-
 }
 

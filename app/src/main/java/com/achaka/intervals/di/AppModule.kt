@@ -1,7 +1,7 @@
 package com.achaka.intervals.di
 
 import android.app.Application
-import com.achaka.intervals.IntervalsApp
+import com.achaka.intervals.di.scope.ApplicationScope
 import dagger.Module
 import dagger.Provides
 

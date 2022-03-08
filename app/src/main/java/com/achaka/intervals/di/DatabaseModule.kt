@@ -1,10 +1,9 @@
 package com.achaka.intervals.di
 
 import android.app.Application
-import android.content.Context
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.achaka.intervals.AppDatabase
+import com.achaka.intervals.di.scope.ApplicationScope
 import com.achaka.intervals.interval.model.IntervalDao
 import com.achaka.intervals.training.model.TrainingDao
 import dagger.Module

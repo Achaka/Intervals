@@ -1,4 +1,4 @@
-package com.achaka.intervals.di
+package com.achaka.intervals.di.scope
 
 import javax.inject.Scope
 
