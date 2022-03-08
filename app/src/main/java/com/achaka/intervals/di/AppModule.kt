@@ -9,5 +9,6 @@ import dagger.Provides
 class AppModule(val app: Application) {
 
     @Provides
+    @ApplicationScope
     fun provideApplication(): Application = app
 }

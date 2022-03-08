@@ -2,14 +2,16 @@ package com.achaka.intervals.di
 
 import android.app.Application
 import com.achaka.intervals.AppDatabase
-import com.achaka.intervals.training.di.TrainingModule
+import com.achaka.intervals.training.di.TrainingsModule
+import com.achaka.intervals.training.model.Training
 import com.achaka.intervals.training.model.TrainingDao
 import com.achaka.intervals.training.model.TrainingRepository
 import com.achaka.intervals.training.ui.TrainingsFragment
 import com.achaka.intervals.ui.MainActivity
 import dagger.Component
 
-@Component(modules = [DatabaseModule::class, TrainingModule::class, AppModule::class])
+@ApplicationScope
+@Component(modules = [DatabaseModule::class, AppModule::class, TrainingsModule::class])
 interface AppComponent {
 
     fun inject(mainActivity: MainActivity)

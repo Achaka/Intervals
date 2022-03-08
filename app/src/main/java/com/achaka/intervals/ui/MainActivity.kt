@@ -1,6 +1,5 @@
 package com.achaka.intervals.ui
 
-import android.app.Application
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -9,11 +8,9 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.*
-import com.achaka.intervals.AppDatabase
 import com.achaka.intervals.IntervalsApp
 import com.achaka.intervals.R
 import com.achaka.intervals.training.model.TrainingDao
-import com.achaka.intervals.training.model.TrainingRepository
 import com.google.android.material.navigation.NavigationView
 import javax.inject.Inject
 
@@ -33,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         dao.getTrainings()
-        drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
+        drawerLayout = findViewById(R.id.drawer_layout)
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment

@@ -14,6 +14,7 @@ import dagger.Provides
 class DatabaseModule {
 
     @Provides
+    @ApplicationScope
     fun provideDatabase(application: Application): AppDatabase = Room.databaseBuilder(application, AppDatabase::class.java, "intervals_db").build()
 
     @Provides
