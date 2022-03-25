@@ -27,7 +27,10 @@
         <entry key="..\:/Android/Projects/Intervals/app/src/main/res/menu/drawer_menu.xml" value="0.1" />
         <entry key="..\:/Android/Projects/Intervals/app/src/main/res/menu/insert_training_menu.xml" value="0.1" />
         <entry key="..\:/Android/Projects/Intervals/app/src/main/res/menu/inteval_fragment_menu.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/fragment_insert_training.xml" value="0.2907692307692308" />
+        <entry key="app/src/main/res/layout/fragment_intervals.xml" value="0.2953125" />
+        <entry key="app/src/main/res/layout/fragment_trainings.xml" value="0.16302083333333334" />
         <entry key="trainings_feature/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1505" />
       </map>
     </option>
