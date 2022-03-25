@@ -3,6 +3,7 @@ package com.achaka.intervals.interval.ui
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.*
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,13 +11,8 @@ import com.achaka.intervals.R
 import com.achaka.intervals.databinding.FragmentIntervalsBinding
 import com.achaka.intervals.interval.model.Interval
 import com.achaka.intervals.interval.model.IntervalFragmentMode
-import com.achaka.intervals.training.viewmodel.TrainingsViewModel
-import com.achaka.intervals.training.viewmodel.TrainingsViewModelFactory
-import com.achaka.intervals.training.model.Training
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import kotlin.properties.Delegates
 import kotlin.reflect.KProperty
 
@@ -30,6 +26,9 @@ private lateinit var recyclerView: RecyclerView
 private val initialValues = ArrayList<Int>()
 
 class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
+
+    private var _binding: FragmentIntervalsBinding? = null
+    private val binding get() = _binding!!
 
     private lateinit var fab: FloatingActionButton
     private val subscriptions = CompositeDisposable()
@@ -50,13 +49,22 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
 
         setHasOptionsMenu(true)
 
-        val binding = FragmentIntervalsBinding.bind(
+        _binding = FragmentIntervalsBinding.bind(
             inflater.inflate(
                 R.layout.fragment_intervals,
                 container,
                 false
             )
         )
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val toolbar = activity?.findViewById<Toolbar>(R.id.toolbar)
+        toolbar?.title = getString(R.string.fragment_intervals_title)
+
         fab = binding.addIntervalFab
 
         //getting arguments after the fab was initialized
@@ -75,8 +83,6 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
 
         //RegularMode by default
         adapter.setMode(IntervalFragmentMode.REGULAR_MODE)
-
-        return binding.root
     }
 
     override fun onDestroyView() {

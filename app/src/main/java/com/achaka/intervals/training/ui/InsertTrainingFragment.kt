@@ -3,16 +3,20 @@ package com.achaka.intervals.training.ui
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
+
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.achaka.intervals.R
 import com.achaka.intervals.databinding.FragmentInsertTrainingBinding
+import com.achaka.intervals.databinding.FragmentIntervalsBinding
 import com.achaka.intervals.interval.model.IntervalFragmentMode
 
 
 class InsertTrainingFragment : Fragment() {
 
-    private lateinit var binding: FragmentInsertTrainingBinding
+    private var _binding: FragmentInsertTrainingBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
@@ -23,11 +27,17 @@ class InsertTrainingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
-        binding = FragmentInsertTrainingBinding.inflate(inflater, container, false)
+
+        _binding = FragmentInsertTrainingBinding.inflate(inflater, container, false)
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
+        toolbar.title = getString(R.string.fragment_add_training_title)
+    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.insert_training_menu, menu)

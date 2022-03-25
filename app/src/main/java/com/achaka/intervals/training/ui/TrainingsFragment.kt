@@ -3,18 +3,14 @@ package com.achaka.intervals.training.ui
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.achaka.intervals.AppDatabase
 import com.achaka.intervals.IntervalsApp
 import com.achaka.intervals.R
 import com.achaka.intervals.databinding.FragmentTrainingsBinding
-import com.achaka.intervals.training.model.TrainingDao
 import com.achaka.intervals.training.model.TrainingRepository
-import com.achaka.intervals.training.viewmodel.TrainingsViewModel
-import com.achaka.intervals.training.viewmodel.TrainingsViewModelFactory
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -28,6 +24,8 @@ class TrainingsFragment : Fragment() {
     @Inject
     lateinit var repository: TrainingRepository
 
+    private var _binding: FragmentTrainingsBinding? = null
+    private val binding get() = _binding!!
 
 //    private val mViewModel: TrainingsViewModel by viewModels {
 //        TrainingsViewModelFactory(
@@ -43,15 +41,22 @@ class TrainingsFragment : Fragment() {
         setHasOptionsMenu(true)
 
         (requireActivity().applicationContext as IntervalsApp).trainingComponent.inject(this)
-//        (requireActivity().applicationContext as IntervalsApp).appComponent.inject(this)
+        val toolbar = activity?.findViewById<Toolbar>(R.id.toolbar)
+        toolbar?.title = getString(R.string.fragment_trainings_title)
 
-        val binding = FragmentTrainingsBinding.bind(
+        _binding = FragmentTrainingsBinding.bind(
             inflater.inflate(
                 R.layout.fragment_trainings,
                 container,
                 false
             )
         )
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val recyclerView = binding.trainingsRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -110,8 +115,6 @@ class TrainingsFragment : Fragment() {
 //            )
 
         subscriptions.add(trainingsObserver)
-
-        return binding.root
     }
 
     override fun onDestroyView() {
