@@ -7,12 +7,16 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.achaka.intervals.IntervalsApp
 import com.achaka.intervals.R
 import com.achaka.intervals.databinding.FragmentIntervalsBinding
 import com.achaka.intervals.interval.model.Interval
 import com.achaka.intervals.interval.model.IntervalFragmentMode
+import com.achaka.intervals.interval.model.IntervalsRepository
+import com.achaka.intervals.training.model.TrainingRepository
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import io.reactivex.disposables.CompositeDisposable
+import javax.inject.Inject
 import kotlin.properties.Delegates
 import kotlin.reflect.KProperty
 
@@ -26,6 +30,9 @@ private lateinit var recyclerView: RecyclerView
 private val initialValues = ArrayList<Int>()
 
 class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
+
+    @Inject
+    lateinit var repository: IntervalsRepository
 
     private var _binding: FragmentIntervalsBinding? = null
     private val binding get() = _binding!!
@@ -41,6 +48,12 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
 
     private var sNewTrainingName: String = ""
     private var trainingId: Long = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        (requireActivity().applicationContext as IntervalsApp)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -86,6 +99,7 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
     }
 
     override fun onDestroyView() {
+        _binding = null
         subscriptions.clear()
         super.onDestroyView()
     }

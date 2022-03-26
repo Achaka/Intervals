@@ -18,7 +18,8 @@
         android:layout_margin="32dp"
         android:background="@color/black"
         android:backgroundTint="@color/black"
-        android:tint="@color/white" />
+        android:tint="@color/white"
+        tools:ignore="ContentDescription" />
 
     <Button
         android:id="@+id/button"
