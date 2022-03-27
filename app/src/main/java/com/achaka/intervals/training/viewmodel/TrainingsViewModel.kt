@@ -1,19 +1,22 @@
 package com.achaka.intervals.training.viewmodel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.achaka.intervals.training.model.Training
-import com.achaka.intervals.training.model.TrainingDao
 import com.achaka.intervals.training.model.TrainingRepository
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
+import javax.inject.Inject
 
-class TrainingsViewModel(private val trainingRepository: TrainingRepository): ViewModel() {
+class TrainingsViewModel @Inject constructor(private val trainingRepository: TrainingRepository): ViewModel() {
 
     private val subscriptions = CompositeDisposable()
-    private val trainingsList = mutableListOf<Training>()
+
+    private val _trainingsList = MutableLiveData<Training>()
+    val trainingsList: LiveData<Training> = _trainingsList
 
     override fun onCleared() {
         subscriptions.dispose()

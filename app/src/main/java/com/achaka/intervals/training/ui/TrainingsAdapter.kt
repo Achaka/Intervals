@@ -5,30 +5,39 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.achaka.intervals.R
 import com.achaka.intervals.databinding.TrainingItemBinding
 import com.achaka.intervals.training.model.Training
 
-class TrainingsAdapter(private val onItemClickListener: (Training) -> Unit,
-                       private val onDeleteClickListener: (trainingId: Long) -> Unit
-                       ) :
+class TrainingsAdapter(
+    private val onItemClickListener: (Training) -> Unit,
+    private val onDeleteClickListener: (trainingId: Long) -> Unit
+) :
     ListAdapter<Training, TrainingsAdapter.TrainingsAdapterViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrainingsAdapterViewHolder {
-        val viewHolder = TrainingsAdapterViewHolder(TrainingItemBinding.inflate(
-            LayoutInflater.from(parent.context)
-        ))
-        viewHolder.itemView.setOnClickListener {
-            onItemClickListener(getItem(viewHolder.adapterPosition))
-        }
-        return viewHolder
+
+        val viewHolder =
+            TrainingItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
+        return TrainingsAdapterViewHolder(viewHolder)
     }
 
     override fun onBindViewHolder(holder: TrainingsAdapterViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    inner class TrainingsAdapterViewHolder(private var binding: TrainingItemBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class TrainingsAdapterViewHolder(private var binding: TrainingItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        var currentItem: Training? = null
+        init {
+            itemView.setOnClickListener {
+                currentItem?.let { currentItem -> onItemClickListener(currentItem) }
+            }
+        }
         fun bind(training: Training) {
+            currentItem = training
             binding.name.text = training.trainingName
             binding.delete.setOnClickListener {
                 onDeleteClickListener(training.id)
@@ -43,7 +52,7 @@ class TrainingsAdapter(private val onItemClickListener: (Training) -> Unit,
     // These methods allow the ListAdapter to determine which items have been inserted, updated,
     // and deleted so that the UI can be updated accordingly.
     companion object {
-        private val DiffCallback = object : DiffUtil.ItemCallback<Training>(){
+        private val DiffCallback = object : DiffUtil.ItemCallback<Training>() {
             override fun areItemsTheSame(oldItem: Training, newItem: Training): Boolean {
                 return oldItem.id == newItem.id
             }

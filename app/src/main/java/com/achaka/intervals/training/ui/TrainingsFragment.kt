@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.achaka.intervals.IntervalsApp
 import com.achaka.intervals.R
 import com.achaka.intervals.databinding.FragmentTrainingsBinding
+import com.achaka.intervals.di.viewmodel.ViewModelFactory
 import com.achaka.intervals.training.model.TrainingRepository
 import com.achaka.intervals.training.viewmodel.TrainingsViewModel
-import com.achaka.intervals.training.viewmodel.TrainingsViewModelFactory
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -28,7 +28,7 @@ class TrainingsFragment : Fragment() {
     lateinit var repository: TrainingRepository
 
     @Inject
-    lateinit var trainingsViewModelFactory: TrainingsViewModelFactory
+    lateinit var viewModelFactory: ViewModelFactory
     lateinit var trainingsViewModel: TrainingsViewModel
 
     private var _binding: FragmentTrainingsBinding? = null
@@ -38,7 +38,7 @@ class TrainingsFragment : Fragment() {
         super.onCreate(savedInstanceState)
         (requireActivity().applicationContext as IntervalsApp).trainingComponent.inject(this)
         trainingsViewModel =
-            ViewModelProvider(this, trainingsViewModelFactory).get(TrainingsViewModel::class.java)
+            ViewModelProvider(this, viewModelFactory).get(TrainingsViewModel::class.java)
     }
 
     override fun onCreateView(

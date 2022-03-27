@@ -33,7 +33,6 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
 
     @Inject
     lateinit var repository: IntervalsRepository
-
     private var _binding: FragmentIntervalsBinding? = null
     private val binding get() = _binding!!
 
@@ -52,7 +51,7 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        (requireActivity().applicationContext as IntervalsApp)
+        (requireActivity().applicationContext as IntervalsApp).intervalsComponent.inject(this)
     }
 
     override fun onCreateView(
@@ -261,7 +260,7 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
 //            subscriptions.add(insertSub)
 //        }
 //    }
-//
+////
 //    private fun getIntervals() =
 //        mViewModel.getIntervals(trainingId)
 //            .subscribeOn(Schedulers.io())
