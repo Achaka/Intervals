@@ -7,6 +7,8 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.achaka.intervals.IntervalsApp
@@ -58,6 +60,8 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
 
     private var sNewTrainingName: String = ""
     private var trainingId: Long = 0
+
+    private var flagSuccessfullySaved = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -226,6 +230,14 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
                 adapter.setMode(sMode)
                 recyclerView.adapter = adapter
             }
+            android.R.id.home -> {
+                if (flagSuccessfullySaved) {
+                    val action = IntervalsFragmentDirections.actionIntervalsFragmentToTrainingsFragment()
+                    view?.findNavController()?.navigate(action)
+                    Toast.makeText(requireContext(), flagSuccessfullySaved.toString(), Toast.LENGTH_SHORT).show()
+                    return true
+                }
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -246,6 +258,7 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
         subscriptions.add(insertSub)
     }
 
+
     //    /*
 //    * Вставка списка интервалов - используется при создании новой тренировки
 //    */
@@ -259,23 +272,29 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
                 val intervalsObserver = getIntervals()
                 subscriptions.add(intervalsObserver)
             }, {
-                Toast.makeText(this.requireContext(), getString(R.string.unknownError), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this.requireContext(),
+                    getString(R.string.unknownError),
+                    Toast.LENGTH_SHORT
+                ).show()
             })
         subscriptions.add(insertIntervalsSub)
     }
-//    /*
+
+    //    /*
 //    * Вставка списка интервалов и создание новой тренировки
 //    */
     private fun insertIntervalsWithTraining(trainingName: String?) {
         if (trainingName != null) {
             val insertSub = trainingsViewModel.insertTraining(Training(0L, trainingName))
-            .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
                         insertNewIntervals(it)
                         trainingId = it
                         getIntervals()
+                        flagSuccessfullySaved = true
                     },
                     {
                         Toast.makeText(
@@ -288,7 +307,8 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
             subscriptions.add(insertSub)
         }
     }
-////
+
+    ////
     private fun getIntervals() =
         intervalsViewModel.getIntervals(trainingId)
             .subscribeOn(Schedulers.io())
@@ -300,7 +320,11 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
                     adapter.submitList(it)
                 },
                 {
-                    Toast.makeText(this.context, getString(R.string.intervalsLoadError), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this.context,
+                        getString(R.string.intervalsLoadError),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             )
 //

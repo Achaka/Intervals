@@ -72,7 +72,7 @@ class TrainingsFragment : Fragment() {
             val action = TrainingsFragmentDirections.actionTrainingsFragmentToIntervalsFragment(
                 trainingId = it.id
             )
-            view?.findNavController()?.navigate(action)
+            view.findNavController().navigate(action)
         }, {
             val deleteSub = trainingsViewModel.deleteTraining(it)
                 .subscribeOn(Schedulers.io())
@@ -93,7 +93,7 @@ class TrainingsFragment : Fragment() {
         binding.addTrainingFab.setOnClickListener {
             val action =
                 TrainingsFragmentDirections.actionTrainingsFragmentToInsertTrainingFragment()
-            view?.findNavController()?.navigate(action)
+            view.findNavController().navigate(action)
         }
 
         recyclerView.adapter = adapter

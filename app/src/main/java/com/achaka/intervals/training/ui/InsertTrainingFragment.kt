@@ -2,6 +2,7 @@ package com.achaka.intervals.training.ui
 
 import android.os.Bundle
 import android.view.*
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 
@@ -37,6 +38,16 @@ class InsertTrainingFragment : Fragment() {
 
         val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
         toolbar.title = getString(R.string.fragment_add_training_title)
+
+        val spinner = binding.typeSpinner
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.training_types_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

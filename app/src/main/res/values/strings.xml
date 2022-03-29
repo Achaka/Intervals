@@ -23,4 +23,6 @@
     <string name="fragment_add_training_title">Add Training</string>
 
     <string name="unknownError">Something went wrong</string>
+    <string name="training_type">type</string>
+    <string name="enter_training_name_hint">Enter training name...</string>
 </resources>
