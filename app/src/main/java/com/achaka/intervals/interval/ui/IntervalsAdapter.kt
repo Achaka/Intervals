@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.achaka.intervals.databinding.IntervalItemBinding
+import com.achaka.intervals.databinding.IntervalPacedItemBinding
 import com.achaka.intervals.interval.model.Interval
 import com.achaka.intervals.interval.model.IntervalFragmentMode
 import java.lang.NumberFormatException
@@ -31,7 +31,7 @@ class IntervalsAdapter(private val deleteClickListener: DeleteClickListener)
         parent: ViewGroup,
         viewType: Int
     ): IntervalViewHolder {
-        val binding = IntervalItemBinding.inflate(LayoutInflater.from(parent.context))
+        val binding = IntervalPacedItemBinding.inflate(LayoutInflater.from(parent.context))
         return IntervalViewHolder(
             binding
         )
@@ -42,7 +42,7 @@ class IntervalsAdapter(private val deleteClickListener: DeleteClickListener)
         holder.bind(getItem(position))
     }
 
-    inner class IntervalViewHolder(private val binding: IntervalItemBinding)
+    inner class IntervalViewHolder(private val binding: IntervalPacedItemBinding)
         : RecyclerView.ViewHolder(binding.root) {
         private var id: Int = 0
         fun setId(id: Int) {
@@ -125,7 +125,7 @@ class IntervalsAdapter(private val deleteClickListener: DeleteClickListener)
                 }
             }
 
-            binding.intervalNumber.text = interval.number.toString()
+            binding.number.text = interval.number.toString()
 
             binding.intervalDesc.text = SpannableStringBuilder.valueOf(interval.description)
 

@@ -14,5 +14,8 @@
     <color name="skyGray">#AEB5BE</color>
     <color name="status_bar_color">#2C2E32</color>
 
+    <color name="completed_green">#40af27</color>
+    <color name="not_completed_red">#A90E0A</color>
+
     <color name="primary_timer_progress_color">#60C3D9</color>
 </resources>

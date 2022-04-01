@@ -1,8 +1,6 @@
 package com.achaka.intervals
 
-import android.content.Context
 import androidx.room.Database
-import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.achaka.intervals.interval.model.Interval
 import com.achaka.intervals.interval.model.IntervalDao

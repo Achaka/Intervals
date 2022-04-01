@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.achaka.intervals.IntervalsApp
 import com.achaka.intervals.R
+import com.achaka.intervals.Type
 import com.achaka.intervals.databinding.FragmentIntervalsBinding
 import com.achaka.intervals.di.viewmodel.ViewModelFactory
 import com.achaka.intervals.interval.model.Interval
@@ -156,7 +157,9 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
             isCompleted = false,
             trainingId = trainingId,
             suggestedPace = "0:00",
-            progress = 0
+            progress = 0,
+            type = 0,
+            weight = 0f
         )
         currentList.add(defaultInterval)
         if (sMode == IntervalFragmentMode.EDIT_MODE) {
@@ -286,7 +289,7 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
 //    */
     private fun insertIntervalsWithTraining(trainingName: String?) {
         if (trainingName != null) {
-            val insertSub = trainingsViewModel.insertTraining(Training(0L, trainingName))
+            val insertSub = trainingsViewModel.insertTraining(Training(0L, trainingName, Type.INTERVAL))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(

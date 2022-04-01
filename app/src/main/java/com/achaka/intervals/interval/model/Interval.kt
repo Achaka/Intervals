@@ -21,6 +21,8 @@ data class Interval (
     @ColumnInfo(name = "is_completed") val isCompleted: Boolean,
     @ColumnInfo(name = "training_id") var trainingId: Long,
     @ColumnInfo(name = "suggested_pace") var suggestedPace: String,
+    @ColumnInfo(name = "type") var type: Int,
+    @ColumnInfo(name = "weight") var weight: Float,
     var progress: Int
     )
 
