@@ -11,6 +11,7 @@ import androidx.navigation.findNavController
 import com.achaka.intervals.R
 import com.achaka.intervals.databinding.FragmentInsertTrainingBinding
 import com.achaka.intervals.databinding.FragmentIntervalsBinding
+import com.achaka.intervals.getTypeFromString
 import com.achaka.intervals.interval.model.IntervalFragmentMode
 
 
@@ -58,6 +59,7 @@ class InsertTrainingFragment : Fragment() {
         return when (item.itemId) {
             R.id.submit_training -> {
                 val trainingName = binding.trainingName.text.toString()
+                val trainingType = binding.typeSpinner.selectedItem.toString().getTypeFromString()
                 if (trainingName.isEmpty()) {
                     Toast.makeText(this.requireContext(), getString(R.string.trainingEmptyNameError), Toast.LENGTH_SHORT).show()
                     return false
@@ -65,7 +67,8 @@ class InsertTrainingFragment : Fragment() {
                 val action = InsertTrainingFragmentDirections
                     .actionInsertTrainingFragmentToIntervalsFragment(
                         IntervalFragmentMode.NEW_TRAINING_EDIT_MODE,
-                        trainingName
+                        trainingName,
+                        trainingType
                     )
                 view?.findNavController()?.navigate(action)
                 true

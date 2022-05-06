@@ -14,7 +14,8 @@ import com.achaka.intervals.training.model.Training
     onDelete = ForeignKey.CASCADE)]
         )
 data class Interval (
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "interval_id") val id: Long,
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "interval_id") val id: Long,
     @ColumnInfo(name = "number") var number: Int,
     @ColumnInfo(name = "description") var description: String,
     @ColumnInfo(name = "seconds") var seconds: Int,

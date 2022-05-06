@@ -1,6 +1,7 @@
 package com.achaka.intervals.training.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
@@ -69,6 +70,7 @@ class TrainingsFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         val adapter = TrainingsAdapter({
+            Log.d("training pass", it.toString())
             val action = TrainingsFragmentDirections.actionTrainingsFragmentToIntervalsFragment(
                 trainingId = it.id
             )

@@ -3,5 +3,8 @@
     <string-array name="training_types_array">
         <item>Regular</item>
         <item>Interval</item>
+        <item>Round</item>
+        <item>Ladder</item>
+        <item>Timed</item>
     </string-array>
 </resources>

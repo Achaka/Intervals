@@ -2,6 +2,7 @@ package com.achaka.intervals.interval.ui
 
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
@@ -33,6 +34,7 @@ import kotlin.reflect.KProperty
 private const val TRAINING_ID = "trainingId"
 private const val INTERVALS_MODE = "intervalsMode"
 private const val NEW_TRAINING_NAME = "newTrainingName"
+private const val TRAINING_TYPE = "newTrainingType"
 
 private lateinit var adapter: IntervalsAdapter
 private lateinit var recyclerView: RecyclerView
@@ -61,6 +63,7 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
 
     private var sNewTrainingName: String = ""
     private var trainingId: Long = 0
+    private var trainingType: Type = Type.INTERVAL
 
     private var flagSuccessfullySaved = false
 
@@ -78,9 +81,7 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         setHasOptionsMenu(true)
-
         _binding = FragmentIntervalsBinding.bind(
             inflater.inflate(
                 R.layout.fragment_intervals,
@@ -104,7 +105,13 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
             sMode = it.getSerializable(INTERVALS_MODE) as IntervalFragmentMode
             sNewTrainingName = it.getString(NEW_TRAINING_NAME, "")
             trainingId = it.getLong(TRAINING_ID)
+            trainingType = it.getSerializable(TRAINING_TYPE) as Type
         }
+
+        Toast.makeText(requireContext(), trainingType.name, Toast.LENGTH_SHORT).show()
+
+        val intervalsObserver = getIntervals()
+        subscriptions.add(intervalsObserver)
 
         //recyclerView setup
         recyclerView = binding.intervalsRecyclerView
@@ -158,8 +165,8 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
             trainingId = trainingId,
             suggestedPace = "0:00",
             progress = 0,
-            type = 0,
-            weight = 0f
+            weight = 0f,
+            type = 0
         )
         currentList.add(defaultInterval)
         if (sMode == IntervalFragmentMode.EDIT_MODE) {
@@ -318,6 +325,7 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
+                    Log.d("list", it.toString())
                     initialValues.clear()
                     it.forEach { initialValues.add(it.seconds) }
                     adapter.submitList(it)

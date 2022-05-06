@@ -3,6 +3,7 @@ package com.achaka.intervals.interval.ui
 import android.text.Editable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,10 +32,8 @@ class IntervalsAdapter(private val deleteClickListener: DeleteClickListener)
         parent: ViewGroup,
         viewType: Int
     ): IntervalViewHolder {
-        val binding = IntervalPacedItemBinding.inflate(LayoutInflater.from(parent.context))
-        return IntervalViewHolder(
-            binding
-        )
+        val binding = IntervalPacedItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return IntervalViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: IntervalViewHolder, position: Int) {
@@ -50,7 +49,6 @@ class IntervalsAdapter(private val deleteClickListener: DeleteClickListener)
         }
 
         fun bind(interval: Interval) {
-
             when(sMode) {
                 IntervalFragmentMode.EDIT_MODE, IntervalFragmentMode.NEW_TRAINING_EDIT_MODE -> {
                     binding.delete.visibility = View.VISIBLE
@@ -147,10 +145,12 @@ class IntervalsAdapter(private val deleteClickListener: DeleteClickListener)
     companion object {
         private val DiffCallback = object : DiffUtil.ItemCallback<Interval>() {
             override fun areItemsTheSame(oldItem: Interval, newItem: Interval): Boolean {
+                Log.d("are items the same", (oldItem.id == newItem.id).toString())
                 return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(oldItem: Interval, newItem: Interval): Boolean {
+                Log.d("are contents the same", (oldItem == newItem).toString())
                 return oldItem == newItem
             }
         }

@@ -17,17 +17,17 @@ class TrainingsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrainingsAdapterViewHolder {
 
-        val viewHolder =
+        val binding =
             TrainingItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
-        return TrainingsAdapterViewHolder(viewHolder)
+        return TrainingsAdapterViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: TrainingsAdapterViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    inner class TrainingsAdapterViewHolder(private var binding: TrainingItemBinding) :
+    inner class TrainingsAdapterViewHolder(private val binding: TrainingItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         var currentItem: Training? = null

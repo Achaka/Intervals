@@ -35,6 +35,10 @@
             android:name="newTrainingName"
             android:defaultValue=""
             app:argType="string" />
+        <argument
+            android:name="newTrainingType"
+            android:defaultValue="INTERVAL"
+            app:argType="com.achaka.intervals.Type" />
         <action
             android:id="@+id/action_intervalsFragment_to_trainingsFragment"
             app:destination="@id/trainingsFragment"
@@ -57,6 +61,10 @@
                 android:name="newTrainingName"
                 android:defaultValue=""
                 app:argType="string" />
+            <argument
+                android:name="newTrainingType"
+                android:defaultValue="INTERVAL"
+                app:argType="com.achaka.intervals.Type" />
         </action>
     </fragment>
 

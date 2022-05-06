@@ -34,9 +34,14 @@
         <entry key="app/src/main/res/layout/fragment_intervals.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/fragment_trainings.xml" value="0.16302083333333334" />
         <entry key="app/src/main/res/layout/interval_item.xml" value="0.3647109985351562" />
+        <entry key="app/src/main/res/layout/interval_paced_item.xml" value="0.26744384765625" />
         <entry key="app/src/main/res/layout/interval_regular_item.xml" value="0.2953125" />
+        <entry key="app/src/main/res/layout/ladder_item.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/regular_training_item.xml" value="0.3281768798828125" />
         <entry key="app/src/main/res/layout/training_item.xml" value="0.3535100301106771" />
+        <entry key="app/src/main/res/menu/drawer_menu.xml" value="0.17864583333333334" />
+        <entry key="app/src/main/res/menu/insert_training_menu.xml" value="0.17864583333333334" />
+        <entry key="app/src/main/res/menu/inteval_fragment_menu.xml" value="0.17864583333333334" />
         <entry key="trainings_feature/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1505" />
       </map>
     </option>
