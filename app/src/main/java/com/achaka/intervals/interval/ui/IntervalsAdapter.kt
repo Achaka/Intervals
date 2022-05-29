@@ -7,18 +7,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.achaka.intervals.databinding.IntervalPacedItemBinding
 import com.achaka.intervals.interval.model.Interval
 import com.achaka.intervals.interval.model.IntervalFragmentMode
+import com.achaka.intervals.interval.model.domain_model.ExerciseAdapterItem
 import java.lang.NumberFormatException
 import kotlin.properties.Delegates
 import kotlin.reflect.KProperty
 
 class IntervalsAdapter(private val deleteClickListener: DeleteClickListener)
-    : ListAdapter<Interval, IntervalsAdapter.IntervalViewHolder>(DiffCallback) {
+    : ListAdapter<ExerciseAdapterItem, IntervalsAdapter.IntervalViewHolder>(DiffCallback) {
 
     private var sMode: IntervalFragmentMode by Delegates.observable(IntervalFragmentMode.EDIT_MODE) {
             _: KProperty<*>, _: IntervalFragmentMode, _: IntervalFragmentMode ->
@@ -37,7 +39,7 @@ class IntervalsAdapter(private val deleteClickListener: DeleteClickListener)
     }
 
     override fun onBindViewHolder(holder: IntervalViewHolder, position: Int) {
-        holder.setId(getItem(position).id.toInt())
+        holder.setId(getItem(position).id)
         holder.bind(getItem(position))
     }
 
@@ -48,72 +50,27 @@ class IntervalsAdapter(private val deleteClickListener: DeleteClickListener)
             this.id = id
         }
 
-        fun bind(interval: Interval) {
+
+        fun bind(exerciseAdapterItem: ExerciseAdapterItem) {
             when(sMode) {
                 IntervalFragmentMode.EDIT_MODE, IntervalFragmentMode.NEW_TRAINING_EDIT_MODE -> {
                     binding.delete.visibility = View.VISIBLE
                     binding.intervalDesc.isEnabled = true
-                    binding.intervalDesc.addTextChangedListener(object: TextWatcher {
-                        override fun beforeTextChanged(
-                            p0: CharSequence?,
-                            p1: Int,
-                            p2: Int,
-                            p3: Int
-                        ) {
-                            //do nothing
-                        }
-                        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                            //do nothing
-                        }
-                        override fun afterTextChanged(p0: Editable?) {
-                            interval.description = p0.toString()
-                        }
-                    })
+                    binding.intervalDesc.doAfterTextChanged {
+//                        interval.description = it.toString()
+                    }
                     binding.suggestedPace.isEnabled = true
-                    binding.suggestedPace.addTextChangedListener(object : TextWatcher {
-                        override fun beforeTextChanged(
-                            p0: CharSequence?,
-                            p1: Int,
-                            p2: Int,
-                            p3: Int
-                        ) {
-                            //do nothing
-                        }
-
-                        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                            //do nothing
-                        }
-
-                        override fun afterTextChanged(p0: Editable?) {
-                            interval.suggestedPace = p0.toString()
-                        }
-                    })
+                    binding.suggestedPace.doAfterTextChanged {
+//                        interval.suggestedPace = it.toString()
+                    }
                     binding.timeToGo.isEnabled = true
-                    binding.timeToGo.addTextChangedListener(object: TextWatcher {
-                        override fun beforeTextChanged(
-                            p0: CharSequence?,
-                            p1: Int,
-                            p2: Int,
-                            p3: Int
-                        ) {
+                    binding.timeToGo.doAfterTextChanged { val fieldValue = it.toString()
+                        try {
+//                            interval.seconds = fieldValue.toInt()
+                        } catch (e: NumberFormatException) {
                             //do nothing
                         }
-
-                        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                            //do nothing
-                        }
-
-                        override fun afterTextChanged(p0: Editable?) {
-                            val fieldValue = p0.toString()
-                            try {
-                                interval.seconds = fieldValue.toInt()
-                            } catch (e: NumberFormatException) {
-                                //do nothing
-                            }
-
-                        }
-
-                    })
+                    }
                 }
                 else -> {
                     binding.delete.visibility = View.INVISIBLE
@@ -123,36 +80,37 @@ class IntervalsAdapter(private val deleteClickListener: DeleteClickListener)
                 }
             }
 
-            binding.number.text = interval.number.toString()
-
-            binding.intervalDesc.text = SpannableStringBuilder.valueOf(interval.description)
-
+//            binding.number.text = interval.number.toString()
+//            binding.intervalDesc.text = SpannableStringBuilder.valueOf(interval.description)
             binding.timeToGo.text?.clear()
-            binding.timeToGo.text?.append(interval.seconds.toString())
-
-            binding.linearProgressIndicator.progress = interval.progress
-
+//            binding.timeToGo.text?.append(interval.seconds.toString())
+//            binding.linearProgressIndicator.progress = interval.progress
             binding.suggestedPace.text?.clear()
-            binding.suggestedPace.text?.append(interval.suggestedPace)
-
+//            binding.suggestedPace.text?.append(interval.suggestedPace)
             binding.delete.setOnClickListener {
-                deleteClickListener.deleteInterval(interval.id)
+//                deleteClickListener.deleteInterval(interval.id)
             }
         }
 
     }
 
     companion object {
-        private val DiffCallback = object : DiffUtil.ItemCallback<Interval>() {
-            override fun areItemsTheSame(oldItem: Interval, newItem: Interval): Boolean {
+        private val DiffCallback = object : DiffUtil.ItemCallback<ExerciseAdapterItem>() {
+            override fun areItemsTheSame(
+                oldItem: ExerciseAdapterItem,
+                newItem: ExerciseAdapterItem
+            ): Boolean {
                 Log.d("are items the same", (oldItem.id == newItem.id).toString())
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: Interval, newItem: Interval): Boolean {
-                Log.d("are contents the same", (oldItem == newItem).toString())
+            override fun areContentsTheSame(
+                oldItem: ExerciseAdapterItem,
+                newItem: ExerciseAdapterItem
+            ): Boolean {
                 return oldItem == newItem
             }
+
         }
     }
 

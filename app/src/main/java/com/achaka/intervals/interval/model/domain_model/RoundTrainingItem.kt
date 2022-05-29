@@ -1,4 +1,15 @@
 package com.achaka.intervals.interval.model.domain_model
 
-class RoundTrainingItem {
+data class RoundTrainingItem(
+    override val id: Int,
+    var number: Int,
+    var description: String,
+    val isCompleted: Boolean,
+    var weight: Float,
+    var reps: Int,
+    var progress: Int
+): ExerciseAdapterItem() {
+
+    override val content: ExerciseAdapterItem
+        get() = this
 }

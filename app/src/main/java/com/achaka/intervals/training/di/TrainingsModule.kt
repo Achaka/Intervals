@@ -16,5 +16,4 @@ class TrainingsModule {
     @Provides
     fun provideTrainingsRepository(dao: TrainingDao): TrainingRepository = TrainingRepositoryImpl(dao)
 
-
 }

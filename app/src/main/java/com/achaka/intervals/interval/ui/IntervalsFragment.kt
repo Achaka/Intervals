@@ -20,6 +20,10 @@ import com.achaka.intervals.di.viewmodel.ViewModelFactory
 import com.achaka.intervals.interval.model.Interval
 import com.achaka.intervals.interval.model.IntervalFragmentMode
 import com.achaka.intervals.interval.model.IntervalsRepository
+import com.achaka.intervals.interval.model.domain_model.IntervalPacedTrainingItem
+import com.achaka.intervals.interval.model.domain_model.RegularTrainingItem
+import com.achaka.intervals.interval.ui.adapterdelegate.ExerciseItem
+import com.achaka.intervals.interval.ui.adapterdelegate.ExerciseItemAdapter
 import com.achaka.intervals.interval.viewmodel.IntervalsViewModel
 import com.achaka.intervals.training.model.Training
 import com.achaka.intervals.training.viewmodel.TrainingsViewModel
@@ -36,12 +40,12 @@ private const val INTERVALS_MODE = "intervalsMode"
 private const val NEW_TRAINING_NAME = "newTrainingName"
 private const val TRAINING_TYPE = "newTrainingType"
 
-private lateinit var adapter: IntervalsAdapter
+private lateinit var adapter: ExerciseItemAdapter
 private lateinit var recyclerView: RecyclerView
 
 private val initialValues = ArrayList<Int>()
 
-class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
+class IntervalsFragment : Fragment() {
 
     @Inject
     lateinit var repository: IntervalsRepository
@@ -51,7 +55,7 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private lateinit var intervalsViewModel: IntervalsViewModel
-    lateinit var trainingsViewModel: TrainingsViewModel
+    private lateinit var trainingsViewModel: TrainingsViewModel
 
     private lateinit var fab: FloatingActionButton
     private val subscriptions = CompositeDisposable()
@@ -110,18 +114,26 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
 
         Toast.makeText(requireContext(), trainingType.name, Toast.LENGTH_SHORT).show()
 
+        setupRecyclerView()
+
         val intervalsObserver = getIntervals()
         subscriptions.add(intervalsObserver)
+    }
 
-        //recyclerView setup
+    private fun setupRecyclerView() {
+        val testList = mutableListOf<ExerciseItem>()
+        testList.add(IntervalPacedTrainingItem(1,0, "desc",123,false,0L,"$%30", 30))
+        testList.add(RegularTrainingItem(1, 13, "regs", false, 60.0f, 10, 9))
         recyclerView = binding.intervalsRecyclerView
         recyclerView.itemAnimator = null
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        adapter = IntervalsAdapter(this)
+        adapter = ExerciseItemAdapter { id: Long -> onDeleteCLick(id) }
+
+        adapter.items = testList
         recyclerView.adapter = adapter
 
         //RegularMode by default
-        adapter.setMode(IntervalFragmentMode.REGULAR_MODE)
+        adapter.mode = IntervalFragmentMode.REGULAR_MODE
     }
 
     override fun onDestroyView() {
@@ -141,7 +153,7 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
             IntervalFragmentMode.EDIT_MODE, IntervalFragmentMode.NEW_TRAINING_EDIT_MODE -> {
                 fab.setImageResource(R.drawable.ic_sharp_add_24)
                 fab.setOnClickListener {
-                    onAddItemClick(adapter)
+//                    onAddItemClick(adapter)
                 }
             }
             IntervalFragmentMode.RUNNING_MODE -> {
@@ -155,27 +167,27 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
 
     //Immediately insert default item after the click
     private fun onAddItemClick(adapter: IntervalsAdapter) {
-        val currentList = adapter.currentList.toMutableList()
-        val defaultInterval = Interval(
-            id = 0L,
-            number = currentList.size + 1,
-            description = "",
-            seconds = 5,
-            isCompleted = false,
-            trainingId = trainingId,
-            suggestedPace = "0:00",
-            progress = 0,
-            weight = 0f,
-            type = 0
-        )
-        currentList.add(defaultInterval)
-        if (sMode == IntervalFragmentMode.EDIT_MODE) {
-            insertNewInterval(defaultInterval)
-        }
-        adapter.submitList(currentList)
+//        val currentList = adapter.currentList.toMutableList()
+//        val defaultInterval = Interval(
+//            id = 0L,
+//            number = currentList.size + 1,
+//            description = "",
+//            seconds = 5,
+//            isCompleted = false,
+//            trainingId = trainingId,
+//            suggestedPace = "0:00",
+//            progress = 0,
+//            weight = 0f,
+//            type = 0
+//        )
+//        currentList.add(dledefaultInterval)
+//        if (sMode == IntervalFragmentMode.EDIT_MODE) {
+//            insertNewInterval(defaultInterval)
+//        }
+//        adapter.submitList(currentList)
     }
 
-    private var timer: Timer? = null
+//    private var timer: Timer? = null
 
     private fun onPlayClick(
     ) {
@@ -185,15 +197,15 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
     }
 
     fun startCountdownTimer(cp: Int) {
-        val timeToGo = adapter.currentList[cp].seconds
-        timer = Timer(timeToGo, cp)
-        timer?.start()
+//        val timeToGo = adapter.currentList[cp].seconds
+//        timer = Timer(timeToGo, cp)
+//        timer?.start()
     }
 
     private fun onStopClick() {
         sMode = IntervalFragmentMode.REGULAR_MODE
-        timer?.cancel()
-        resetAdapter()
+//        timer?.cancel()
+//        resetAdapter()
     }
 
 
@@ -209,7 +221,7 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
             IntervalFragmentMode.EDIT_MODE, IntervalFragmentMode.NEW_TRAINING_EDIT_MODE -> {
                 menu.findItem(R.id.edit_intervals).isVisible = false
                 menu.findItem(R.id.confirm).isVisible = true
-                adapter.setMode(sMode)
+                adapter.mode = sMode
                 recyclerView.adapter = adapter
 
             }
@@ -237,7 +249,7 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
                 }
 //                updateIntervals(adapter.currentList)
                 sMode = IntervalFragmentMode.REGULAR_MODE
-                adapter.setMode(sMode)
+                adapter.mode = sMode
                 recyclerView.adapter = adapter
             }
             android.R.id.home -> {
@@ -273,22 +285,22 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
 //    * Вставка списка интервалов - используется при создании новой тренировки
 //    */
     private fun insertNewIntervals(trainingId: Long) {
-        val intervals = adapter.currentList
-        intervals.forEach { it.trainingId = trainingId }
-        val insertIntervalsSub = intervalsViewModel.insertIntervals(intervals)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                val intervalsObserver = getIntervals()
-                subscriptions.add(intervalsObserver)
-            }, {
-                Toast.makeText(
-                    this.requireContext(),
-                    getString(R.string.unknownError),
-                    Toast.LENGTH_SHORT
-                ).show()
-            })
-        subscriptions.add(insertIntervalsSub)
+//        val intervals = adapter.currentList
+//        intervals.forEach { it.trainingId = trainingId }
+//        val insertIntervalsSub = intervalsViewModel.insertIntervals(intervals)
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe({
+//                val intervalsObserver = getIntervals()
+//                subscriptions.add(intervalsObserver)
+//            }, {
+//                Toast.makeText(
+//                    this.requireContext(),
+//                    getString(R.string.unknownError),
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            })
+//        subscriptions.add(insertIntervalsSub)
     }
 
     //    /*
@@ -324,11 +336,11 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                {
-                    Log.d("list", it.toString())
+                { intervals ->
+                    Log.d("list", intervals.toString())
                     initialValues.clear()
-                    it.forEach { initialValues.add(it.seconds) }
-                    adapter.submitList(it)
+                    intervals.forEach { initialValues.add(it.seconds) }
+
                 },
                 {
                     Toast.makeText(
@@ -351,88 +363,85 @@ class IntervalsFragment : Fragment(), IntervalsAdapter.DeleteClickListener {
 //        subscriptions.add(updateSub)
 //    }
 //
-//    override fun deleteInterval(intervalId: Long) {
+    fun onDeleteCLick(intervalId: Long) {
 //        val currentList = adapter.currentList.toMutableList()
-//
-//        fun removeItem() {
+        Log.d("onDeleteClick", "Delete was clicked + $intervalId")
+        fun removeItem() {
 //            currentList.removeIf{ it.id == intervalId }
 //            currentList.forEachIndexed{index, interval -> interval.number = index+1 }
-//        }
-//
-//        when(sMode) {
-//            IntervalFragmentMode.NEW_TRAINING_EDIT_MODE -> {
-//                removeItem()
+        }
+
+        when(sMode) {
+            IntervalFragmentMode.NEW_TRAINING_EDIT_MODE -> {
+                removeItem()
 //                adapter.submitList(currentList)
-//                adapter.notifyDataSetChanged()
-//            }
-//            else -> {
-//                removeItem()
-//                val deleteIntervalSub = mViewModel.deleteInterval(intervalId)
-//                    .subscribeOn(Schedulers.io())
-//                    .observeOn(AndroidSchedulers.mainThread())
-//                    .subscribe({
+                adapter.notifyDataSetChanged()
+            }
+            else -> {
+                removeItem()
+                val deleteIntervalSub = intervalsViewModel.deleteInterval(intervalId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
 //                        updateIntervals(currentList)
-//                        adapter.notifyDataSetChanged()
-//                    }, {
-//                        Toast.makeText(this.requireContext(), getString(R.string.unknownError), Toast.LENGTH_SHORT).show()
-//                    })
-//                subscriptions.add(deleteIntervalSub)
-//            }
-//        }
-//    }
-//    fun clear() {
-//        trainingId.let { mViewModel.clear(it) }
-//    }
+                        adapter.notifyDataSetChanged()
+                    }, {
+                        Toast.makeText(this.requireContext(), getString(R.string.unknownError), Toast.LENGTH_SHORT).show()
+                    })
+                subscriptions.add(deleteIntervalSub)
+            }
+        }
+    }
+    fun clear() {
+        trainingId.let {intervalsViewModel.clear(it) }
+    }
 
 
 /////////////////////////////////////////
 ////////******TIMER
 //
 
-    inner class Timer(timeToGo: Int, var cp: Int) : CountDownTimer(timeToGo * 1000L, 25) {
-
-        private val initialTimerValues = adapter.currentList.map { interval -> interval.seconds }
-        override fun onTick(millisUntilFinished: Long) {
-            when (millisUntilFinished % 1000 < 50) {
-                true -> {
-                    /*
-                     * Обновление оставшегося времени
-                    */
-                    val toGo = (millisUntilFinished / 1000).toInt()
-                    adapter.currentList[cp].seconds = toGo
-                    /*
-                     * * Обновление progressIndicator
-                    */
-                    adapter.currentList[cp].progress =
-                        100 - ((toGo.toFloat() / initialTimerValues[cp]) * 100).toInt()
-                    adapter.notifyItemChanged(cp)
-                }
-            }
-            if (millisUntilFinished == 0L) {
-                adapter.currentList[cp].seconds = (millisUntilFinished / 1000).toInt()
-                adapter.notifyItemChanged(cp)
-            }
-        }
-
-        override fun onFinish() {
-            if (cp < adapter.currentList.size - 1) {
-                startCountdownTimer(cp + 1)
-            } else {
-                sMode = IntervalFragmentMode.REGULAR_MODE
-                resetAdapter()
-            }
-        }
-    }
-
-    private fun resetAdapter() {
-        val list = adapter.currentList
-        list.forEachIndexed { index, interval -> interval.seconds = initialValues[index] }
-        list.forEach { interval -> interval.progress = 0 }
-        adapter.submitList(list)
-        adapter.notifyDataSetChanged()
-    }
-
-    override fun deleteInterval(intervalId: Long) {
-
-    }
+//    inner class Timer(timeToGo: Int, var cp: Int) : CountDownTimer(timeToGo * 1000L, 25) {
+//
+//        private val initialTimerValues = adapter.currentList.map { interval -> interval.seconds }
+//        override fun onTick(millisUntilFinished: Long) {
+//            when (millisUntilFinished % 1000 < 50) {
+//                true -> {
+//                    /*
+//                     * Обновление оставшегося времени
+//                    */
+//                    val toGo = (millisUntilFinished / 1000).toInt()
+//                    adapter.currentList[cp].seconds = toGo
+//                    /*
+//                     * * Обновление progressIndicator
+//                    */
+//                    adapter.currentList[cp].progress =
+//                        100 - ((toGo.toFloat() / initialTimerValues[cp]) * 100).toInt()
+//                    adapter.notifyItemChanged(cp)
+//                }
+//            }
+//            if (millisUntilFinished == 0L) {
+//                adapter.currentList[cp].seconds = (millisUntilFinished / 1000).toInt()
+//                adapter.notifyItemChanged(cp)
+//            }
+//        }
+//
+//        override fun onFinish() {
+//            if (cp < adapter.currentList.size - 1) {
+//                startCountdownTimer(cp + 1)
+//            } else {
+//                sMode = IntervalFragmentMode.REGULAR_MODE
+//                resetAdapter()
+//            }
+//        }
+//    }
+//
+//    private fun resetAdapter() {
+//        val list = adapter.currentList
+//        list.forEachIndexed { index, interval -> interval.seconds = initialValues[index] }
+//        list.forEach { interval -> interval.progress = 0 }
+//        adapter.submitList(list)
+//        adapter.notifyDataSetChanged()
+//    }
+//
 }
